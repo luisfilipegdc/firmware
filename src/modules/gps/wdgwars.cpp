@@ -18,7 +18,7 @@ WDGoWars::~WDGoWars() {}
 
 bool WDGoWars::_check_api_key() {
     if (bruceConfig.wdgwarsApiKey.length() != 64) {
-        displayError("Set API key in bruce.conf\nGet it at wdgwars.pl", true);
+        displayError("Defina a API key em bruce.conf\nObtenha em wdgwars.pl", true);
         return false;
     }
 
@@ -69,20 +69,20 @@ bool WDGoWars::upload(FS *fs, const String &filepath, bool auto_delete) {
 
     File file = fs->open(filepath);
     if (!file) {
-        displayError("Failed to open file", true);
+        displayError("Falha ao abrir arquivo", true);
         return false;
     }
 
     if (!_upload_file(file, "Uploading...")) {
         file.close();
-        displayError("File upload error", true);
+        displayError("Erro no envio do arquivo", true);
         return false;
     }
 
     file.close();
     if (auto_delete) fs->remove(filepath);
 
-    displaySuccess("File upload success", true);
+    displaySuccess("Arquivo enviado com sucesso", true);
     return true;
 }
 
@@ -115,7 +115,7 @@ bool WDGoWars::upload_all(FS *fs, const String &folder, bool auto_delete) {
                 if (file) {
                     if (!_upload_file(file, "Uploading " + String(i) + "...")) {
                         file.close();
-                        displayError("File upload error", true);
+                        displayError("Erro no envio do arquivo", true);
                         return false;
                     }
                     i++;
@@ -137,7 +137,7 @@ bool WDGoWars::_upload_file(File file, const String &upload_message) {
     WiFiClientSecure client;
     client.setInsecure();
     if (!client.connect(host, 443)) {
-        displayError("WDGoWars connection failed", true);
+        displayError("Falha na conexão WDGoWars", true);
         return false;
     }
 

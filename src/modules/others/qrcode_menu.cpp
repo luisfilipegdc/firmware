@@ -95,7 +95,7 @@ void save_and_display_qrcode() {
     String name = keyboard("", 100, "QRCode name:");
     if (name == "\x1B") return;
     if (name.isEmpty()) {
-        displayError("Name cannot be empty!");
+        displayError("O nome não pode ficar vazio!");
         delay(1000);
         return;
     }
@@ -105,7 +105,7 @@ void save_and_display_qrcode() {
             bruceConfig.qrCodes.end(),
             [&](const BruceConfig::QrCodeEntry &entry) { return entry.menuName == name; }
         )) {
-        displayError("Name already exists!");
+        displayError("Esse nome já existe!");
         delay(1000);
         return;
     }
@@ -119,7 +119,7 @@ void save_and_display_qrcode() {
 
 void remove_custom_qrcode() {
     if (bruceConfig.qrCodes.empty()) {
-        displayInfo("There is nothing to remove!");
+        displayInfo("Não há nada para remover!");
         delay(1000);
         custom_qrcode_menu();
     }

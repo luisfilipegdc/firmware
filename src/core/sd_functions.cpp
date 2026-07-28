@@ -243,7 +243,7 @@ bool copyToFs(FS from, FS to, String path, bool draw) {
     int prog = 0;
 
     if (&to == &LittleFS && (LittleFS.totalBytes() - LittleFS.usedBytes()) < tot) {
-        displayError("Not enought space", true);
+        displayError("Espaço insuficiente", true);
         return false;
     }
     const int bufSize = 1024;
@@ -278,7 +278,7 @@ bool copyToFs(FS from, FS to, String path, bool draw) {
     }
     if (prog == tot) result = true;
     else {
-        displayError("Fail Copying File", true);
+        displayError("Falha ao copiar arquivo", true);
         free(buff);
         return false;
     }
@@ -422,7 +422,7 @@ String readSmallFile(FS &fs, const String &filepath) {
 
     size_t fileSize = file.size();
     if (fileSize > SAFE_STACK_BUFFER_SIZE || fileSize > ESP.getFreeHeap()) {
-        displayError("File is too big", true);
+        displayError("Arquivo grande demais", true);
         return "";
     }
     // TODO: if(psramFound()) -> use PSRAM instead
@@ -624,7 +624,7 @@ String loopSD(FS &fs, bool filePicker, const String &allowed_ext, String rootPat
     tft.drawRoundRect(5, 5, tftWidth - 10, tftHeight - 10, 5, bruceConfig.priColor);
     if (&fs == &SD) {
         if (!setupSdCard()) {
-            displayError("Fail Mounting SD", true);
+            displayError("Falha ao montar SD", true);
             return "";
         }
     }
@@ -904,7 +904,7 @@ String loopSD(FS &fs, bool filePicker, const String &allowed_ext, String rootPat
                                                   String plaintext = readDecryptedFile(fs, filepath);
                                                   if (plaintext.length() == 0)
                                                       return displayError(
-                                                          "Decryption failed", true
+                                                          "Falha na descriptografia", true
                                                       ); // file is too big or cannot read, or cancelled
                                                   // else
                                                   plaintext.trim(); // remove newlines
@@ -919,7 +919,7 @@ String loopSD(FS &fs, bool filePicker, const String &allowed_ext, String rootPat
                                                   String plaintext = readDecryptedFile(fs, filepath);
                                                   delay(200);
                                                   if (plaintext.length() == 0)
-                                                      return displayError("Decryption failed", true);
+                                                      return displayError("Falha na descriptografia", true);
                                                   plaintext.trim(); // remove newlines
                                                                     // if(plaintext.length()<..)
                                                   displaySuccess(plaintext, true);
@@ -1009,7 +1009,7 @@ void viewFile(FS &fs, const String &filepath) {
 **********************************************************************/
 bool checkLittleFsSize() {
     if ((LittleFS.totalBytes() - LittleFS.usedBytes()) < 4096) {
-        displayError("LittleFS is Full", true);
+        displayError("LittleFS está cheio", true);
         return false;
     } else return true;
 }

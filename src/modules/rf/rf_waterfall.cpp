@@ -7,11 +7,11 @@ float m_rf_waterfall_end_freq = 435.0;
 
 void rf_waterfall() {
     if (bruceConfigPins.rfModule != CC1101_SPI_MODULE) {
-        displayError("Waterfall needs a CC1101!", true);
+        displayError("O Waterfall precisa de um CC1101!", true);
         return;
     }
     if (!initRfModule("rx", m_rf_waterfall_start_freq)) {
-        displayError("CC1101 not found!", true);
+        displayError("CC1101 não encontrado!", true);
         return;
     }
 

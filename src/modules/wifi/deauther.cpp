@@ -298,7 +298,7 @@ void stationDeauth(Host host, const uint8_t *apBssidIn) {
     uint8_t hostMAC[6];
     stringToMAC(host.mac.c_str(), hostMAC);
     if (isMACZero(hostMAC)) {
-        displayError("Invalid MAC address", true);
+        displayError("Endereço MAC inválido", true);
         return;
     }
 
@@ -343,7 +343,7 @@ void stationDeauth(Host host, const uint8_t *apBssidIn) {
     }
 
     if (channel == 0) {
-        displayError("Could not find target AP", true);
+        displayError("AP alvo não encontrado", true);
         return;
     }
     int band = getWiFiBand(channel);
@@ -369,7 +369,7 @@ void stationDeauth(Host host, const uint8_t *apBssidIn) {
         String currentSsid = WiFi.SSID();
         if (currentSsid.length() == 0) { currentSsid = "DEAUTH_" + String(random(1000, 9999)); }
         if (!WiFi.softAP(currentSsid.c_str(), emptyString, channel, 1, 4, false)) {
-            displayError("Fail starting Deauth", true);
+            displayError("Falha ao iniciar Deauth", true);
             return;
         }
     }
@@ -647,7 +647,7 @@ void runDeauthAll(uint8_t* targetMAC, int channel) {
         delay(10);
         WiFi.mode(WIFI_AP);
         if (!WiFi.softAP("DEAUTH_ALL", emptyString, channel, 1, 4, false)) {
-            displayError("Failed to start Deauth", true);
+            displayError("Falha ao iniciar Deauth", true);
             return;
         }
     }
@@ -760,7 +760,7 @@ void deauthAllFromScan() {
     displayTextLine("Scanning for networks...");
     int n = WiFi.scanNetworks(false, false);
     if (n == 0) {
-        displayError("No networks found", true);
+        displayError("Nenhuma rede encontrada", true);
         return;
     }
     
@@ -835,7 +835,7 @@ void deauthAllMenu() {
 
 void runDeauthTargetList(const std::vector<Host>& targets, uint8_t* targetMAC, int channel) {
     if (targets.empty()) {
-        displayError("No targets selected", true);
+        displayError("Nenhum alvo selecionado", true);
         return;
     }
     WiFiState savedState = saveWiFiState();
@@ -848,7 +848,7 @@ void runDeauthTargetList(const std::vector<Host>& targets, uint8_t* targetMAC, i
         delay(10);
         WiFi.mode(WIFI_AP);
         if (!WiFi.softAP("DEAUTH_LIST", emptyString, channel, 1, 4, false)) {
-            displayError("Failed to start Deauth", true);
+            displayError("Falha ao iniciar Deauth", true);
             return;
         }
     }
@@ -948,7 +948,7 @@ void showAPSelectionForClientDeauth() {
     displayTextLine("Scanning for networks...");
     int n = WiFi.scanNetworks(false, false);
     if (n == 0) {
-        displayError("No networks found", true);
+        displayError("Nenhuma rede encontrada", true);
         return;
     }
     
@@ -1033,7 +1033,7 @@ void scanClientsOnAP(uint8_t* targetMAC, int channel) {
     
     bool enhanced_mode = tryMonitorMode(channel);
     if (!enhanced_mode) {
-        displayError("Failed to enter monitor mode", true);
+        displayError("Falha ao entrar em modo monitor", true);
         clientScanActive = false;
         return;
     }
@@ -1125,7 +1125,7 @@ void showTargetSelection() {
     
     int n = WiFi.scanNetworks(false, true);
     if (n == 0) {
-        displayError("No networks found", true);
+        displayError("Nenhuma rede encontrada", true);
         return;
     }
     

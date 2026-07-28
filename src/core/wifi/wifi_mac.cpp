@@ -41,7 +41,7 @@ bool validateMACFormat(const String &mac) {
 
 bool setCustomMAC(const String &mac) {
     if (!validateMACFormat(mac)) {
-        displayError("Invalid MAC Format!");
+        displayError("Formato de MAC inválido!");
         return false;
     }
     bruceConfig.wifiMAC = mac;

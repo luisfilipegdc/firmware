@@ -118,7 +118,7 @@ void BLE_Sniffer() {
                     vTaskDelay(10 / portTICK_PERIOD_MS);
                     pSnifferScan = NimBLEDevice::getScan();
                     if (!pSnifferScan) {
-                        displayError("Failed to init scanner");
+                        displayError("Falha ao iniciar scanner");
                         NimBLEDevice::deinit(true);
                         break;
                     }
@@ -323,12 +323,12 @@ void BLE_Sniffer() {
                         file.println("\n");
                     }
                     file.close();
-                    displaySuccess("Saved to " + storageType);
+                    displaySuccess("Salvo em " + storageType);
                 } else {
-                    displayError("Failed to save");
+                    displayError("Falha ao salvar");
                 }
             } else {
-                displayError("No storage available");
+                displayError("Nenhum armazenamento disponível");
             }
             delay(1000);
         }

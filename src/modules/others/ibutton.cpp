@@ -251,7 +251,7 @@ static void setAction(MenuAction a) { selectedAction = a; }
 
 static void doWrite() {
     if (!keyLoaded) {
-        displayError("No key in buffer", true);
+        displayError("Nenhuma chave no buffer", true);
         delay(1500);
         return;
     }
@@ -269,32 +269,32 @@ static void doWrite() {
     }
 
     writeKey();
-    displaySuccess("Key written!");
+    displaySuccess("Chave gravada!");
     delay(1500);
 }
 
 static void doSave() {
     if (!keyLoaded) {
-        displayError("No key in buffer", true);
+        displayError("Nenhuma chave no buffer", true);
         delay(1500);
         return;
     }
     IButtonResult r = saveKey();
-    if (r == IBUTTON_SUCCESS) displaySuccess("Saved");
-    else displayError("Save failed", true);
+    if (r == IBUTTON_SUCCESS) displaySuccess("Salvo");
+    else displayError("Falha ao salvar", true);
     delay(1500);
 }
 
 static void doLoad() {
     IButtonResult r = loadKey();
     if (r == IBUTTON_SUCCESS) {
-        displaySuccess("Key loaded");
+        displaySuccess("Chave carregada");
         delay(1000);
     } else if (r == IBUTTON_CRC_ERROR) {
-        displayWarning("Loaded (CRC mismatch)", true);
+        displayWarning("Carregado (CRC divergente)", true);
         delay(1500);
     } else {
-        displayError("Load failed", true);
+        displayError("Falha ao carregar", true);
         delay(1500);
     }
 }
@@ -302,7 +302,7 @@ static void doLoad() {
 static void doReset() {
     memset(keyBuffer, 0, sizeof(keyBuffer));
     keyLoaded = false;
-    displaySuccess("Buffer cleared");
+    displaySuccess("Buffer limpo");
     delay(1000);
 }
 

@@ -138,14 +138,14 @@ void DHCPStarvation::randomize_mac() {
 void DHCPStarvation::setup() {
     netif = netif_list;
     if (netif == NULL) {
-        displayError("No interface found");
+        displayError("Nenhuma interface encontrada");
         Serial.println("No interface found");
         return;
     }
 
     p = pbuf_alloc(PBUF_RAW, PACKET_LENGTH_DHCP, PBUF_RAM);
     if (p == NULL) {
-        displayError("Failed to allocate pbuf");
+        displayError("Falha ao alocar pbuf");
         Serial.println("Failed to allocate pbuf");
         return;
     }

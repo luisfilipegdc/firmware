@@ -569,7 +569,7 @@ int loopOptions(
             checkReboot();
             if (devModeCounter >= 5 && !bruceConfig.devMode) {
                 bruceConfig.setDevMode(true);
-                displayInfo("Dev Mode Enabled", true);
+                displayInfo("Modo Dev ativado", true);
             }
             if (millis() - _clock_bat_timer > 30000) {
                 _clock_bat_timer = millis();

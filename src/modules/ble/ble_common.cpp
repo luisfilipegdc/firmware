@@ -137,7 +137,7 @@ bool ble_scan_setup() {
 
     // FIX: Always try to init - if already init'd, it's a no-op
     if (!radioHasMemForBle()) {
-        displayError("Low RAM: free WiFi/SD first", true);
+        displayError("RAM baixa: libere WiFi/SD antes", true);
         returnToMenu = true;
         return false;
     }
@@ -148,7 +148,7 @@ bool ble_scan_setup() {
     RAM_LOG("ble-scan post-init");
     pBLEScan = BLEDevice::getScan();
     if (!pBLEScan) {
-        displayError("Failed to get scan object", true);
+        displayError("Falha ao obter objeto de scan", true);
         return false;
     }
 
@@ -186,7 +186,7 @@ void ble_scan() {
 #endif
 
     if (!ble_scan_setup() || pBLEScan == nullptr) {
-        displayError("Failed to init BLE scan");
+        displayError("Falha ao iniciar scan BLE");
         return;
     }
 
@@ -227,7 +227,7 @@ void ble_scan() {
             options.emplace_back("... and more devices", nullptr);
         }
     } catch (...) {
-        displayError("BLE scan error");
+        displayError("Erro no scan BLE");
         pBLEScan->clearResults();
         return;
     }
@@ -251,7 +251,7 @@ void ble_scan() {
         loopOptions(options);
         options.clear();
     } else {
-        displayError("No devices found");
+        displayError("Nenhum dispositivo encontrado");
         delay(1000);
     }
 }
@@ -267,20 +267,20 @@ bool initBLEServer() {
 
     pServer = BLEDevice::createServer();
     if (!pServer) {
-        displayError("Failed to create BLE server");
+        displayError("Falha ao criar servidor BLE");
         return false;
     }
 
     pServer->setCallbacks(new MyServerCallbacks());
     pService = pServer->createService(SERVICE_UUID);
     if (!pService) {
-        displayError("Failed to create BLE service");
+        displayError("Falha ao criar serviço BLE");
         return false;
     }
 
     pTxCharacteristic = pService->createCharacteristic(CHARACTERISTIC_RX_UUID, NIMBLE_PROPERTY::NOTIFY);
     if (!pTxCharacteristic) {
-        displayError("Failed to create TX characteristic");
+        displayError("Falha ao criar característica TX");
         return false;
     }
 
@@ -289,7 +289,7 @@ bool initBLEServer() {
         CHARACTERISTIC_TX_UUID, NIMBLE_PROPERTY::WRITE | NIMBLE_PROPERTY::WRITE_NR
     );
     if (!pRxCharacteristic) {
-        displayError("Failed to create RX characteristic");
+        displayError("Falha ao criar característica RX");
         return false;
     }
     pRxCharacteristic->setCallbacks(new MyCallbacks());
@@ -305,7 +305,7 @@ void disPlayBLESend() {
 
     if (!pServer) {
         if (!initBLEServer()) {
-            displayError("Failed to init BLE server");
+            displayError("Falha ao iniciar servidor BLE");
             return;
         }
     }
@@ -382,7 +382,7 @@ void ble_test() {
     if (!is_ble_inited) {
         printf("Init ble server\n");
         if (!initBLEServer()) {
-            displayError("Failed to init BLE server");
+            displayError("Falha ao iniciar servidor BLE");
             return;
         }
         delay(100);

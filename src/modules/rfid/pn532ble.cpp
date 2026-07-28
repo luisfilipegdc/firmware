@@ -19,24 +19,24 @@ void Pn532ble::setup() {
 }
 
 bool Pn532ble::connect() {
-    displayInfo("Turn on PN532 BLE");
+    displayInfo("Ligue o PN532 BLE");
     delay(500);
     displayBanner();
     padprintln("");
-    displayInfo("Searching...");
+    displayInfo("Procurando...");
 
     if (!pn532_ble.searchForDevice()) {
-        displayError("Not found");
+        displayError("Não encontrado");
         delay(1000);
         return false;
     }
 
     if (!pn532_ble.connectToDevice()) {
-        displayError("Connect failed");
+        displayError("Falha na conexão");
         delay(1000);
         return false;
     }
-    displaySuccess("Connected");
+    displaySuccess("Conectado");
     delay(800);
 
     return true;
@@ -149,9 +149,9 @@ void Pn532ble::saveDumpMenu() {
                                String fileName =
                                    saveHfDumpBinFile(mfd, pn532_ble.hf14aTagInfo.uid_hex, "mf-");
                                if (fileName != "") {
-                                   displaySuccess("Saved to " + fileName);
+                                   displaySuccess("Salvo em " + fileName);
                                } else {
-                                   displayError("Dump save failed");
+                                   displayError("Falha ao salvar dump");
                                }
                            }});
     }
@@ -161,9 +161,9 @@ void Pn532ble::saveDumpMenu() {
                                String fileName =
                                    saveHfDumpBinFile(mfud, pn532_ble.hf14aTagInfo.uid_hex, "mfu-");
                                if (fileName != "") {
-                                   displaySuccess("Saved to " + fileName);
+                                   displaySuccess("Salvo em " + fileName);
                                } else {
-                                   displayError("Dump save failed");
+                                   displayError("Falha ao salvar dump");
                                }
                            }});
     }
@@ -173,9 +173,9 @@ void Pn532ble::saveDumpMenu() {
                                String fileName =
                                    saveHfDumpBinFile(iso15dump, pn532_ble.hf15TagInfo.uid_hex, "iso15-");
                                if (fileName != "") {
-                                   displaySuccess("Saved to " + fileName);
+                                   displaySuccess("Salvo em " + fileName);
                                } else {
-                                   displayError("Dump save failed");
+                                   displayError("Falha ao salvar dump");
                                }
                            }});
     }
@@ -272,7 +272,7 @@ void Pn532ble::showDeviceInfo() {
     pn532_ble.setNormalMode();
     bool res = pn532_ble.getVersion();
     if (!res) {
-        displayError("Get version failed");
+        displayError("Falha ao obter versão");
         delay(1000);
         return;
     }
@@ -296,9 +296,9 @@ void Pn532ble::hf14aScan() {
     pn532_ble.setNormalMode();
     PN532_BLE::Iso14aTagInfo tagInfo = pn532_ble.hf14aScan();
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
     } else if (tagInfo.uid.size() != 4 && tagInfo.uid.size() != 7 && tagInfo.uid.size() != 10) {
-        displayError("Not ISO14443A Tag");
+        displayError("Não é uma tag ISO14443A");
     } else {
         padprintln("------------");
         padprintln("Type: " + tagInfo.type);
@@ -323,15 +323,15 @@ void Pn532ble::hf15Scan() {
     padprintln("HF 15 Scan");
     delay(200);
     if (!pn532_ble.isPN532Killer()) {
-        displayError("Not supported");
+        displayError("Não suportado");
         return;
     }
     pn532_ble.setNormalMode();
     PN532_BLE::Iso15TagInfo tagInfo = pn532_ble.hf15Scan();
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
     } else if (tagInfo.uid.size() != 8) {
-        displayError("Not ISO15693 Tag");
+        displayError("Não é uma tag ISO15693");
     } else {
         padprintln("------------");
         padprintln("UID:  " + tagInfo.uid_hex);
@@ -348,14 +348,14 @@ void Pn532ble::lfScan() {
     padprintln("LF Scan");
     delay(200);
     if (!pn532_ble.isPN532Killer()) {
-        displayError("Not supported");
+        displayError("Não suportado");
         return;
     }
 
     pn532_ble.setNormalMode();
     PN532_BLE::LfTagInfo tagInfo = pn532_ble.lfScan();
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
     } else {
         padprintln("------------");
         padprintln("UID: " + tagInfo.uid_hex);
@@ -379,7 +379,7 @@ void Pn532ble::hf14aMfReadDumpMode() {
     pn532_ble.setNormalMode();
     PN532_BLE::Iso14aTagInfo tagInfo = pn532_ble.hf14aScan();
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
         return;
     }
     mfd.clear();
@@ -406,7 +406,7 @@ void Pn532ble::hf14aMfReadDumpMode() {
                 uint8_t blockData[16];
                 std::vector<uint8_t> res = pn532_ble.sendData({0x30, i}, true);
                 if (res.size() < 18) {
-                    displayError("Read failed");
+                    displayError("Falha na leitura");
                     return;
                 }
                 String blockStr = String(i) + " ";
@@ -450,7 +450,7 @@ void Pn532ble::hf14aMfReadDumpMode() {
                     std::vector<uint8_t> res =
                         pn532_ble.sendData({0xCF, 0x00, 0x00, 0x00, 0x00, 0xCE, blockIndex}, true);
                     if (res.size() < 18) {
-                        displayError("Read failed");
+                        displayError("Falha na leitura");
                         return;
                     }
                     String blockStr = String(blockIndex) + " ";
@@ -494,7 +494,7 @@ void Pn532ble::hf14aMfReadDumpMode() {
                         pn532_ble.mfAuth(tagInfo.uid, sectorBlockIdex, pn532_ble.mifareDefaultKey, useKeyA);
                 }
                 if (!authResult) {
-                    displayError("Sector " + String(s) + " auth failed");
+                    displayError("Setor " + String(s) + " auth failed");
                     continue;
                 }
                 uint8_t sectorBlockSize = (s < 32) ? 4 : 16;
@@ -559,7 +559,7 @@ void Pn532ble::hf14aMfuReadDumpMode() {
     pn532_ble.setNormalMode();
     PN532_BLE::Iso14aTagInfo tagInfo = pn532_ble.hf14aScan();
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
         return;
     }
     mfd.clear();
@@ -654,7 +654,7 @@ void Pn532ble::hf14aMfuWriteDumpMode() {
     PN532_BLE::Iso14aTagInfo tagInfo = pn532_ble.hf14aScan();
     padprintln("------------");
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
         return;
     }
     padprintln("UID:  " + tagInfo.uid_hex);
@@ -676,7 +676,7 @@ void Pn532ble::hf14aMfuWriteDumpMode() {
         if (first4Page.size() == 16) { max_block = first4Page[14] * 2 + 9; }
 
         if (max_block > mfud.size() / 4) {
-            displayError("Dump size not enough");
+            displayError("Tamanho de dump insuficiente");
             return;
         }
 
@@ -718,7 +718,7 @@ void Pn532ble::hf14aMfWriteDumpMode() {
     PN532_BLE::Iso14aTagInfo tagInfo = pn532_ble.hf14aScan();
     padprintln("------------");
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
         return;
     }
     padprintln("UID:  " + tagInfo.uid_hex);
@@ -910,7 +910,7 @@ void Pn532ble::hf15ReadDumpMode() {
     PN532_BLE::Iso15TagInfo tagInfo = pn532_ble.hf15Scan();
     padprintln("------------");
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
         return;
     }
     padprintln("UID:  " + tagInfo.uid_hex);
@@ -931,7 +931,7 @@ void Pn532ble::hf15ReadDumpMode() {
         for (uint8_t i = 0; i < tagInfo.blockSize; i++) {
             std::vector<uint8_t> res = pn532_ble.hf15Rdbl(i);
             if (res.size() < 4) {
-                displayError("Read failed");
+                displayError("Falha na leitura");
                 return;
             }
             String blockStr = String(i) + " ";
@@ -966,7 +966,7 @@ void Pn532ble::hf15WriteDumpMode() {
     PN532_BLE::Iso15TagInfo tagInfo = pn532_ble.hf15Scan();
     padprintln("------------");
     if (tagInfo.uid.empty()) {
-        displayError("No tag found");
+        displayError("Nenhuma tag encontrada");
         return;
     }
     padprintln("UID:  " + tagInfo.uid_hex);
@@ -987,7 +987,7 @@ void Pn532ble::hf15WriteDumpMode() {
 
         // check iso15dump size with tag block size
         if (iso15dump.size() > tagInfo.blockSize * 4) {
-            displayError("Dump size is too large");
+            displayError("Dump grande demais");
             return;
         }
 
@@ -1210,7 +1210,7 @@ void Pn532ble::ntagEmulationMode() {
                                               0x55, 0x44, 0x33, 0x22, 0x11, 0x00, 0x00};
     std::vector<uint8_t> initAsTargetResult = pn532_ble.tgInitAsTarget(tgInitAsTargetCmd);
     if (initAsTargetResult.size() == 0) {
-        displayError("Init as target failed");
+        displayError("Falha ao iniciar como alvo");
         return;
     }
     String respStr = "Resp: ";

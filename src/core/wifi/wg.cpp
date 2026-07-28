@@ -96,7 +96,7 @@ void read_and_parse_file() {
     File file = SD.open("/wg.conf");
     if (!file) {
         Serial.println("Failed to open wg.conf file");
-        displayError("No wg.conf file on SD", true);
+        displayError("Nenhum arquivo wg.conf no SD", true);
         return;
     }
 

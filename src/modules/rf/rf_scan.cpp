@@ -676,7 +676,7 @@ bool rfSaveSignal(float frequency, RfCodes codes, bool raw, char *key, bool auto
     String filename = "";
 
     if (!getFsStorage(fs)) {
-        displayError("No space left on device", true);
+        displayError("Sem espaço no dispositivo", true);
         return false;
     }
 
@@ -735,7 +735,7 @@ bool rfSaveSignal(float frequency, RfCodes codes, bool raw, char *key, bool auto
         file.println(subfile_out);
         if (!autoSave) displaySuccess(file.path());
     } else {
-        displayError("Error saving file", true);
+        displayError("Erro ao salvar arquivo", true);
     }
 
     file.close();
@@ -746,7 +746,7 @@ String rf_scan(float start_freq, float stop_freq, int max_loops) {
     // derived from https://github.com/mcore1976/cc1101-tool/blob/main/cc1101-tool-esp32.ino#L480
 
     if (bruceConfigPins.rfModule != CC1101_SPI_MODULE) {
-        displayError("rf scanning is available with CC1101 only", true);
+        displayError("o scan de RF só funciona com o CC1101", true);
         return ""; // only CC1101 is supported for this
     }
     if (!initRfModule("rx", start_freq)) return "";

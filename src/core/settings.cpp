@@ -698,7 +698,7 @@ void setRFModuleMenu() {
             return;
         }
         // else display an error
-        displayError("CC1101 not found", true);
+        displayError("CC1101 não encontrado", true);
         if (pins_setup == 1)
             qrcode_display("https://github.com/pr3y/Bruce/blob/main/media/connections/cc1101_stick.jpg");
         if (pins_setup == 2)
@@ -727,7 +727,7 @@ void setRFFreqMenu() {
         }
     }
     // else
-    displayError("Invalid frequency");
+    displayError("Frequência inválida");
     bruceConfigPins.setRfFreq(433.92); // reset to default
     delay(1000);
 }
@@ -1290,7 +1290,7 @@ void setWifiApSsidMenu() {
              String newSsid = keyboard(bruceConfig.wifiAp.ssid, 32, "WiFi AP SSID:");
              if (newSsid != "\x1B") {
                  if (!newSsid.isEmpty()) bruceConfig.setWifiApCreds(newSsid, bruceConfig.wifiAp.pwd);
-                 else displayError("SSID cannot be empty", true);
+                 else displayError("O SSID não pode ficar vazio", true);
              }
          },                                                                         !isDefault},
     };
@@ -1315,7 +1315,7 @@ void setWifiApPasswordMenu() {
              String newPassword = keyboard(bruceConfig.wifiAp.pwd, 32, "WiFi AP Password:", true);
              if (newPassword != "\x1B") {
                  if (!newPassword.isEmpty()) bruceConfig.setWifiApCreds(bruceConfig.wifiAp.ssid, newPassword);
-                 else displayError("Password cannot be empty", true);
+                 else displayError("A senha não pode ficar vazia", true);
              }
          },                                                                          !isDefault},
     };
@@ -1408,7 +1408,7 @@ void setBadUSBBLEKeyDelayMenu() {
         if (delayVal <= 500) {
             bruceConfig.setBadUSBBLEKeyDelay(delayVal);
         } else if (delayVal != 0) {
-            displayError("Invalid key delay value (0 to 500)", true);
+            displayError("Valor de delay inválido (0 a 500)", true);
         }
     }
 }
@@ -1448,7 +1448,7 @@ void setMacAddressMenu() {
              if (newMAC.length() == 17) {
                  bruceConfig.setWifiMAC(newMAC);
              } else {
-                 displayError("Invalid MAC format");
+                 displayError("Formato de MAC inválido");
              }
          }, bruceConfig.wifiMAC != ""},
         {"Random MAC", [&]() {
@@ -1578,7 +1578,7 @@ RELOAD:
 **********************************************************************/
 void setI2CPinsMenu(BruceConfigPins::I2CPins &value) {
 #if defined(SOC_HP_I2C_NUM) && SOC_HP_I2C_NUM < 2 && SYS_I2C_SDA >= 0 && SYS_I2C_SCL >= 0
-    displayError("I2C Pins cannot be changed on this board", true);
+    displayError("Pinos I2C não podem ser alterados nesta placa", true);
     return;
 #else
     uint8_t opt = 0;
@@ -1671,8 +1671,8 @@ static bool ble_api_enabled = false;
 
 void enableBLEAPI() {
     if (!ble_api_enabled) {
-        // displayWarning("BLE API require huge amount of RAM.");
-        // displayWarning("Some features may stop working.");
+        // displayWarning("A API BLE exige muita RAM.");
+        // displayWarning("Algumas funções podem parar de funcionar.");
         Serial.println(ESP.getFreeHeap());
         bleApi.setup();
         Serial.println(ESP.getFreeHeap());
@@ -1698,7 +1698,7 @@ void installAppStoreJS() {
 
     if (WiFi.status() != WL_CONNECTED) { wifiConnectMenu(WIFI_STA); }
     if (WiFi.status() != WL_CONNECTED) {
-        displayWarning("WiFi not connected", true);
+        displayWarning("WiFi não conectado", true);
         return;
     }
 
@@ -1710,14 +1710,14 @@ void installAppStoreJS() {
 
     if (!fs->exists("/BruceJS")) {
         if (!fs->mkdir("/BruceJS")) {
-            displayWarning("Failed to create /BruceJS directory", true);
+            displayWarning("Falha ao criar diretório /BruceJS", true);
             return;
         }
     }
 
     if (!fs->exists("/BruceJS/Tools")) {
         if (!fs->mkdir("/BruceJS/Tools")) {
-            displayWarning("Failed to create /BruceJS/Tools directory", true);
+            displayWarning("Falha ao criar diretório /BruceJS/Tools", true);
             return;
         }
     }
@@ -1727,20 +1727,20 @@ void installAppStoreJS() {
     int httpCode = http.GET();
     if (httpCode != 200) {
         http.end();
-        displayWarning("Failed to download App Store", true);
+        displayWarning("Falha ao baixar a App Store", true);
         return;
     }
 
     File file = fs->open("/BruceJS/Tools/App Store.js", FILE_WRITE);
     if (!file) {
-        displayWarning("Failed to save App Store", true);
+        displayWarning("Falha ao salvar a App Store", true);
         return;
     }
     file.print(http.getString());
     http.end();
     file.close();
 
-    displaySuccess("App Store installed", true);
-    displaySuccess("Goto JS Interpreter -> Tools -> App Store", true);
+    displaySuccess("App Store instalada", true);
+    displaySuccess("Vá em JS Interpreter -> Tools -> App Store", true);
 }
 #endif

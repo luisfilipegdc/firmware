@@ -238,9 +238,9 @@ void RFID125::save_file() {
     display_banner();
 
     if (write_file(filename)) {
-        displaySuccess("File saved.");
+        displaySuccess("Arquivo salvo.");
     } else {
-        displayError("Error writing file.");
+        displayError("Erro ao gravar arquivo.");
     }
     delay(1000);
     set_state(READ_MODE);

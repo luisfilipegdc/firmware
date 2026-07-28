@@ -229,7 +229,7 @@ bool wifi_atk_setWifi() {
 
     if (WiFi.getMode() != WIFI_MODE_APSTA) {
         if (!WiFi.mode(WIFI_MODE_APSTA)) {
-            displayError("Failed starting WIFI", true);
+            displayError("Falha ao iniciar WiFi", true);
             return false;
         }
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -238,7 +238,7 @@ bool wifi_atk_setWifi() {
     if (WiFi.softAPSSID() != bruceConfig.wifiAp.ssid && WiFi.softAPSSID() != WIFI_ATK_NAME) {
         uint8_t randomChannel = random(1, 12);
         if (!WiFi.softAP(WIFI_ATK_NAME, emptyString, randomChannel, 1, 4, false)) {
-            displayError("Failed starting  AP Attacker", true);
+            displayError("Falha ao iniciar AP Attacker", true);
             return false;
         }
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -253,7 +253,7 @@ bool wifi_atk_setWifi() {
 bool wifi_atk_unsetWifi() {
     if (WiFi.softAPSSID() == WIFI_ATK_NAME) {
         if (!WiFi.softAPdisconnect()) {
-            displayError("Failed Stopping AP Attacker", true);
+            displayError("Falha ao parar AP Attacker", true);
             return false;
         }
         vTaskDelay(pdMS_TO_TICKS(100));
@@ -540,7 +540,7 @@ void capture_handshake(const String &tssid, const String &mac, uint8_t channel) 
     wifi_complete_cleanup();
 
     if (!WiFi.mode(WIFI_MODE_APSTA)) {
-        displayError("Failed starting WIFI", true);
+        displayError("Falha ao iniciar WiFi", true);
         return;
     }
     vTaskDelay(pdMS_TO_TICKS(100));
@@ -548,7 +548,7 @@ void capture_handshake(const String &tssid, const String &mac, uint8_t channel) 
 
     // Initialize sniffer backend
     if (!sniffer_prepare_storage(fs, !isLittleFS)) {
-        displayError("Sniffer queue error", true);
+        displayError("Erro na fila do sniffer", true);
         return;
     }
 

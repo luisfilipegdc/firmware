@@ -291,7 +291,7 @@ bool BLEStateManager::initBLE(const String &name, int powerLevel) {
     if (FORCE_RADIO_TEARDOWN_ON_SWITCH) {
         if (WiFi.getMode() != WIFI_MODE_NULL || wifiConnected) {
             if (wifiConnected) {
-                displayWarning("Board with no PSRAM, closing WiFi Stack");
+                displayWarning("Placa sem PSRAM, fechando pilha WiFi");
                 vTaskDelay(700 / portTICK_PERIOD_MS);
             }
             wifiDisconnect();
@@ -300,7 +300,7 @@ bool BLEStateManager::initBLE(const String &name, int powerLevel) {
     }
 
     if (!radioHasMemForBle()) {
-        displayError("Low RAM: free WiFi/SD first", true);
+        displayError("RAM baixa: libere WiFi/SD antes", true);
         return false;
     }
 
@@ -3907,7 +3907,7 @@ void BLE_Sniffer() {
                 BLEStateManager::initBLE("BruceSniffer", ESP_PWR_LVL_P9);
                 pScan = NimBLEDevice::getScan();
                 if (!pScan) {
-                    displayError("Failed to init scanner");
+                    displayError("Falha ao iniciar scanner");
                     return;
                 }
                 pScan->setActiveScan(true);
@@ -4117,12 +4117,12 @@ void BLE_Sniffer() {
                         file.println("\n");
                     }
                     file.close();
-                    displaySuccess("Saved to " + storageType);
+                    displaySuccess("Salvo em " + storageType);
                 } else {
-                    displayError("Failed to save");
+                    displayError("Falha ao salvar");
                 }
             } else {
-                displayError("No storage available");
+                displayError("Nenhum armazenamento disponível");
             }
             delay(1000);
             redraw = true; // main screen
@@ -4139,7 +4139,7 @@ void BLE_Sniffer() {
 String selectTargetFromScan(const char *title) {
     // Simple memory check - if heap is low, warn but continue
     if (heap_caps_get_free_size(MALLOC_CAP_DEFAULT) < 10000) {
-        displayError("Low memory, scan may be unstable", true);
+        displayError("Memória baixa, o scan pode ficar instável", true);
         // Don't return - let the user decide
     }
 
@@ -4155,14 +4155,14 @@ String selectTargetFromScan(const char *title) {
 
     // FIX: Always call initBLE - it handles the case where stack was deinit'd
     if (!BLEStateManager::initBLE("Bruce-Scanner", ESP_PWR_LVL_P9)) {
-        displayError("Failed to init BLE");
+        displayError("Falha ao iniciar BLE");
         return "";
     }
 
     if (g_pBLEScan == nullptr) {
         g_pBLEScan = NimBLEDevice::getScan();
         if (!g_pBLEScan) {
-            displayError("Failed to get scanner");
+            displayError("Falha ao obter scanner");
             return "";
         }
         g_pBLEScan->setActiveScan(true);
@@ -4270,7 +4270,7 @@ String selectTargetFromScan(const char *title) {
             scannerData.addDevice(name, address, rssi, fastPair, hasHFP, deviceType);
         }
     } catch (...) {
-        displayError("BLE scan error");
+        displayError("Erro no scan BLE");
         if (g_pBLEScan) { g_pBLEScan->clearResults(); }
         return "";
     }

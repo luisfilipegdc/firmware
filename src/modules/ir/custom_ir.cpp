@@ -84,7 +84,7 @@ bool txIrFile(FS *fs, const String &filepath, bool hideDefaultUI) {
 
     if (!databaseFile) {
         Serial.println("Failed to open database file.");
-        displayError("Fail to open file");
+        displayError("Falha ao abrir arquivo");
         delay(2000);
         return false;
     }

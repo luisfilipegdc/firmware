@@ -79,7 +79,7 @@ void socks4Proxy(uint16_t port) {
     if (!wifiConnected) {
         wifiConnectMenu();
         if (!wifiConnected) {
-            displayError("Connect to WiFi first", true);
+            displayError("Conecte-se ao WiFi primeiro", true);
             return;
         }
     }
@@ -109,7 +109,7 @@ void socks4Proxy(uint16_t port) {
     for (;;) {
         WiFiClient client = server.accept();
         if (check(EscPress)) {
-            displayInfo("SOCKS4 proxy stopped", true);
+            displayInfo("Proxy SOCKS4 parado", true);
             server.stop();
             return;
         }

@@ -241,7 +241,7 @@ void displaySpamStatus() {
         vTaskDelay(200 / portTICK_RATE_MS);
         ; // Update the display every 200 ms
     }
-    displayWarning("Stopping.."); // Wait for 1 second for the beacon_task to stop running
+    displayWarning("Parando.."); // Wait for 1 second for the beacon_task to stop running
     vTaskDelay(1000 / portTICK_PERIOD_MS);
 }
 

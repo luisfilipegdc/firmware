@@ -18,7 +18,7 @@ void EspSerialCmd::sendCommands() {
 
     while (1) {
         if (check(EscPress)) {
-            displayInfo("Aborting...");
+            displayInfo("Cancelando...");
             sendStatus = ABORTED;
             break;
         }
@@ -72,7 +72,7 @@ void EspSerialCmd::receiveCommands() {
 
     while (1) {
         if (check(EscPress)) {
-            displayInfo("Aborting...");
+            displayInfo("Cancelando...");
             recvStatus = ABORTED;
             break;
         }

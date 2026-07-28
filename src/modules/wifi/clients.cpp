@@ -1161,7 +1161,7 @@ void runSessionUiLoop(const String &title) {
 #endif
 
         if (check(EscPress) && isDelPressed == false) {
-            if (isSessionConnecting()) { displayWarning("Closing session...", false); }
+            if (isSessionConnecting()) { displayWarning("Encerrando sessão...", false); }
             break;
         }
         vTaskDelay(pdMS_TO_TICKS(20));
@@ -1181,7 +1181,7 @@ char *stringTochar(const String &s) {
 void ssh_setup(const String &host) {
     if (!wifiConnected) wifiConnectMenu();
     if (!initClientMutex()) {
-        displayError("SSH mutex creation failed.", true);
+        displayError("Falha ao criar mutex SSH.", true);
         returnToMenu = true;
         return;
     }
@@ -1207,7 +1207,7 @@ void ssh_setup(const String &host) {
     if (WiFi.hostByName(ssh_host.c_str(), resolvedIp)) {
         ssh_host = resolvedIp.toString();
     } else {
-        displayError("Failed to resolve hostname.", true);
+        displayError("Falha ao resolver hostname.", true);
         Serial.printf("Failed to resolve hostname: %s", ssh_host.c_str());
         returnToMenu = true;
         return;
@@ -1223,7 +1223,7 @@ void ssh_setup(const String &host) {
     setClientTaskHandle(workerHandle);
 
     if (workerHandle == nullptr) {
-        displayError("SSH Task creation failed.", true);
+        displayError("Falha ao criar tarefa SSH.", true);
         returnToMenu = true;
         return;
     }
@@ -1239,7 +1239,7 @@ void telnet_loop() { telnetWorkerTask(nullptr); }
 void telnet_setup() {
     if (!wifiConnected) wifiConnectMenu();
     if (!initClientMutex()) {
-        displayError("Telnet mutex creation failed.", true);
+        displayError("Falha ao criar mutex Telnet.", true);
         returnToMenu = true;
         return;
     }
@@ -1258,7 +1258,7 @@ void telnet_setup() {
     if (WiFi.hostByName(telnet_server_string.c_str(), resolvedIp)) {
         sessionHost = resolvedIp.toString();
     } else {
-        displayError("Failed to resolve hostname.", true);
+        displayError("Falha ao resolver hostname.", true);
         returnToMenu = true;
         return;
     }
@@ -1270,7 +1270,7 @@ void telnet_setup() {
     setClientTaskHandle(workerHandle);
 
     if (workerHandle == nullptr) {
-        displayError("Telnet Task creation failed.", true);
+        displayError("Falha ao criar tarefa Telnet.", true);
         returnToMenu = true;
         return;
     }

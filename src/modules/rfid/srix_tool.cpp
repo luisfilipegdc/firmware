@@ -53,7 +53,7 @@ void SRIXTool::setup() {
     nfc->setWire(Wire);
 
     if (!nfc->init()) {
-        displayError("PN532 not found!", true);
+        displayError("PN532 não encontrado!", true);
         return;
     }
 
@@ -61,14 +61,14 @@ void SRIXTool::setup() {
 
     // Configure for SRIX
     if (!nfc->setPassiveActivationRetries(0xFF)) {
-        displayError("Retry config failed!", true);
+        displayError("Falha ao reconfigurar!", true);
         delay(500);
         return;
     }
 
     padprintln("Testing SRIX init...");
     if (!nfc->SRIX_init()) {
-        displayError("SRIX init failed!", true);
+        displayError("Falha ao iniciar SRIX!", true);
         return;
     }
     uint32_t ver = nfc->getFirmwareVersion();
@@ -82,11 +82,11 @@ void SRIXTool::setup() {
     }
     delay(1000);
 #ifdef T_EMBED_1101
-    displayError("T-Embed detected!", false);
+    displayError("T-Embed detectado!", false);
     delay(1000);
-    displayError("Read Menu INFO!", true);
+    displayError("Leia o INFO do menu!", true);
 #endif
-    displaySuccess("PN532-SRIX ready!");
+    displaySuccess("PN532-SRIX pronto!");
     delay(1000);
 
     set_state(IDLE_MODE);
@@ -262,7 +262,7 @@ void SRIXTool::read_tag() {
 
     // Read UID
     if (!nfc->SRIX_get_uid(_uid)) {
-        displayError("Failed to read UID!");
+        displayError("Falha ao ler UID!");
         delay(2000);
         set_state(READ_TAG_MODE);
         return;
@@ -286,7 +286,7 @@ void SRIXTool::read_tag() {
 
     for (uint8_t b = 0; b < 128; b++) {
         if (!nfc->SRIX_read_block(b, block)) {
-            displayError("Read failed at block " + String(b));
+            displayError("Falha na leitura no bloco " + String(b));
             delay(2000);
             set_state(READ_TAG_MODE);
             return;
@@ -306,7 +306,7 @@ void SRIXTool::read_tag() {
     _dump_valid_from_load = false;
     padprintln("");
     padprintln("");
-    displaySuccess("Tag read successfully!");
+    displaySuccess("Tag lida com sucesso!");
     tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
     padprintln("");
 
@@ -321,8 +321,8 @@ void SRIXTool::read_tag() {
 
 void SRIXTool::write_tag() {
     if (!_dump_valid_from_read && !_dump_valid_from_load) {
-        displayError("No data in memory!");
-        displayError("Read or load a dump first.");
+        displayError("Sem dados na memória!");
+        displayError("Leia ou carregue um dump primeiro.");
         delay(2000);
         set_state(IDLE_MODE);
         return;
@@ -358,8 +358,8 @@ void SRIXTool::write_tag() {
     Serial.printf("Total: %d blocks (%d bytes)\n", 128, 512);
     Serial.println("===========================================\n");
 
-    displaySuccess("Simulation complete!");
-    displayInfo("Check Serial Monitor");
+    displaySuccess("Simulação concluída!");
+    displayInfo("Veja o Monitor Serial");
     delay(4000);
     set_state(IDLE_MODE);
     return;
@@ -409,10 +409,10 @@ void SRIXTool::write_tag() {
 
     // Final report
     if (blocks_failed == 0) {
-        displaySuccess("Write complete!", true);
+        displaySuccess("Gravação concluída!", true);
 
     } else if (blocks_written > 0) {
-        displayWarning("Partial write!", true);
+        displayWarning("Gravação parcial!", true);
         padprintln("");
         padprintln("Written: " + String(blocks_written) + "/128");
         padprintln("Failed: " + String(blocks_failed));
@@ -427,7 +427,7 @@ void SRIXTool::write_tag() {
         }
 
     } else {
-        displayError("Write failed!", true);
+        displayError("Falha na gravação!", true);
         padprintln("No blocks written");
     }
 
@@ -454,7 +454,7 @@ void SRIXTool::read_uid() {
     padprintln("");
 
     if (!nfc->SRIX_get_uid(_uid)) {
-        displayError("Failed to read UID!");
+        displayError("Falha ao ler UID!");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         delay(2000);
         set_state(READ_UID_MODE);
@@ -507,7 +507,7 @@ void SRIXTool::show_pn_info() {
 
     uint32_t ver = nfc->getFirmwareVersion();
     if (!ver) {
-        displayError("Failed to read firmware!");
+        displayError("Falha ao ler firmware!");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
         delay(2000);
         set_state(IDLE_MODE);
@@ -540,8 +540,8 @@ void SRIXTool::show_pn_info() {
 
 void SRIXTool::save_file() {
     if (!_dump_valid_from_read) {
-        displayError("No data in memory!");
-        displayError("Read a tag first.");
+        displayError("Sem dados na memória!");
+        displayError("Leia uma tag primeiro.");
         delay(2000);
         set_state(IDLE_MODE);
         return;
@@ -568,7 +568,7 @@ void SRIXTool::save_file() {
     }
 
     if (filename.isEmpty()) {
-        displayError("Invalid filename!");
+        displayError("Nome de arquivo inválido!");
         delay(2000);
         set_state(IDLE_MODE);
         return;
@@ -579,7 +579,7 @@ void SRIXTool::save_file() {
     // Get filesystem
     FS *fs;
     if (!getFsStorage(fs)) {
-        displayError("Filesystem error!");
+        displayError("Erro no sistema de arquivos!");
         delay(2000);
         set_state(IDLE_MODE);
         return;
@@ -601,7 +601,7 @@ void SRIXTool::save_file() {
     // Open file for writing
     File file = (*fs).open(filepath, FILE_WRITE);
     if (!file) {
-        displayError("Error creating file!");
+        displayError("Erro ao criar arquivo!");
         delay(1500);
         set_state(IDLE_MODE);
         return;
@@ -636,7 +636,7 @@ void SRIXTool::save_file() {
 
     file.close();
 
-    displaySuccess("File saved!");
+    displaySuccess("Arquivo salvo!");
     padprintln("");
     padprintln("Path: " + filepath);
 
@@ -647,7 +647,7 @@ void SRIXTool::save_file() {
 void SRIXTool::load_file() {
     FS *fs;
     if (!getFsStorage(fs)) {
-        displayError("Filesystem error!");
+        displayError("Erro no sistema de arquivos!");
         delay(2000);
         set_state(IDLE_MODE);
         return;
@@ -655,9 +655,9 @@ void SRIXTool::load_file() {
 
     // Verify that the directory exists
     if (!(*fs).exists("/BruceRFID/SRIX")) {
-        displayError("No dumps found!");
+        displayError("Nenhum dump encontrado!");
         delay(1500);
-        displayError("Folder /BruceRFID/SRIX missing");
+        displayError("Pasta /BruceRFID/SRIX ausente");
         delay(2000);
         set_state(IDLE_MODE);
         return;
@@ -666,7 +666,7 @@ void SRIXTool::load_file() {
     // List all .srix files in the directory
     File dir = (*fs).open("/BruceRFID/SRIX");
     if (!dir || !dir.isDirectory()) {
-        displayError("Cannot open SRIX folder!");
+        displayError("Não foi possível abrir a pasta SRIX!");
         delay(1500);
         set_state(IDLE_MODE);
         return;
@@ -688,7 +688,7 @@ void SRIXTool::load_file() {
     dir.close();
 
     if (fileList.empty()) {
-        displayError("No .srix files found!");
+        displayError("Nenhum arquivo .srix encontrado!");
         delay(2500);
         set_state(IDLE_MODE);
         return;
@@ -721,7 +721,7 @@ void SRIXTool::load_file_data(FS *fs, const String &filepath) {
 
     File file = (*fs).open(filepath, FILE_READ);
     if (!file) {
-        displayError("Cannot open file!");
+        displayError("Não foi possível abrir o arquivo!");
         delay(1500);
         set_state(IDLE_MODE);
         return;
@@ -792,8 +792,8 @@ void SRIXTool::load_file_data(FS *fs, const String &filepath) {
 
     // Verify that all 128 blocks have been loaded
     if (blocks_loaded < 128) {
-        displayError("Incomplete dump!");
-        displayError("Loaded " + String(blocks_loaded) + "/128 blocks");
+        displayError("Dump incompleto!");
+        displayError("Carregado " + String(blocks_loaded) + "/128 blocks");
         delay(2000);
         set_state(IDLE_MODE);
         return;
@@ -803,7 +803,7 @@ void SRIXTool::load_file_data(FS *fs, const String &filepath) {
     _dump_valid_from_load = true;
     _dump_valid_from_read = false;
 
-    displaySuccess("Dump loaded successfully!");
+    displaySuccess("Dump carregado com sucesso!");
     delay(1000);
 
     // Extract only the file name from the full path

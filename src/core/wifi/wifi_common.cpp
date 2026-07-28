@@ -98,7 +98,7 @@ bool _wifiConnect(const String &ssid, int encryption) {
 bool _connectToWifiNetwork(const String &ssid, const String &pwd) {
     if (FORCE_RADIO_TEARDOWN_ON_SWITCH) {
         if (BLEConnected) {
-            displayWarning("Board with no PSRAM, closing BLE Stack");
+            displayWarning("Placa sem PSRAM, fechando pilha BLE");
             vTaskDelay(700 / portTICK_PERIOD_MS);
         }
         stopBLEStack();
@@ -127,7 +127,7 @@ bool _connectToWifiNetwork(const String &ssid, const String &pwd) {
 #endif
 
         if (i > 20) {
-            displayError("Wifi Offline");
+            displayError("WiFi offline");
             vTaskDelay(500 / portTICK_RATE_MS);
             break;
         }
@@ -187,7 +187,7 @@ bool wifiConnectMenu(wifi_mode_t mode) {
         case WIFI_STA: { // station mode
             int nets;
             if (!radioHasMemForWifi()) {
-                displayError("Low RAM: free BLE/SD first", true);
+                displayError("RAM baixa: libere BLE/SD antes", true);
                 return false;
             }
             WiFi.mode(WIFI_MODE_STA);
@@ -346,7 +346,7 @@ bool wifiConnecttoKnownNet(void) {
 
     // No-PSRAM guard: refuse before the scan brings Wi-Fi up in low memory.
     if (!radioHasMemForWifi()) {
-        displayError("Low RAM: free BLE/SD first", true);
+        displayError("RAM baixa: libere BLE/SD antes", true);
         return false;
     }
 

@@ -12,12 +12,12 @@ void listenTcpPort() {
 
     String portNumber = num_keyboard("", 5, "TCP port to listen");
     if (portNumber.length() == 0 || portNumber == "\x1B") {
-        displayError("No port number given, exiting");
+        displayError("Nenhuma porta informada, saindo");
         return;
     }
     int portNumberInt = atoi(portNumber.c_str());
     if (portNumberInt == 0) {
-        displayError("Invalid port number, exiting");
+        displayError("Número de porta inválido, saindo");
         return;
     }
 
@@ -47,7 +47,7 @@ void listenTcpPort() {
                 if (inputMode) {
                     String keyString = keyboard("", 16, "send input data, q=quit");
                     if (keyString == "q" || keyString == "\x1B") {
-                        displayError("Exiting Listener");
+                        displayError("Saindo do listener");
                         client.stop();
                         server.stop();
                         return;
@@ -73,10 +73,10 @@ void listenTcpPort() {
             }
             client.stop();
             Serial.println("Client disconnected");
-            displayError("Client disconnected");
+            displayError("Cliente desconectado");
         }
         if (check(EscPress)) {
-            displayError("Exiting Listener");
+            displayError("Saindo do listener");
             server.stop();
             break;
         }
@@ -94,7 +94,7 @@ void clientTCP() {
     int portNumber = atoi(portString.c_str());
 
     if (serverIP.length() == 0 || portNumber == 0) {
-        displayError("Invalid IP or Port");
+        displayError("IP ou porta inválidos");
         return;
     }
 
@@ -109,7 +109,7 @@ void clientTCP() {
     tft.println(serverIP + ":" + portString);
 
     if (!client.connect(serverIP.c_str(), portNumber)) {
-        displayError("Connection failed");
+        displayError("Falha na conexão");
         return;
     }
 
@@ -138,14 +138,14 @@ void clientTCP() {
             if (check(SelPress)) { inputMode = true; }
         }
         if (check(EscPress)) {
-            displayError("Exiting Client");
+            displayError("Saindo do cliente");
             client.stop();
             break;
         }
         vTaskDelay(pdMS_TO_TICKS(1));
     }
 
-    displayError("Connection closed.");
+    displayError("Conexão encerrada.");
     Serial.println("Connection closed.");
     client.stop();
 }

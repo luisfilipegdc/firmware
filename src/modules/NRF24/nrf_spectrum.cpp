@@ -87,7 +87,7 @@ void nrf_spectrum() {
 
     } else {
         Serial.println("Fail Starting radio");
-        displayError("NRF24 not found");
+        displayError("NRF24 não encontrado");
         delay(500);
         return;
     }
