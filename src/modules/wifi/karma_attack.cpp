@@ -2533,7 +2533,7 @@ void saveNetworkHistory(FS &fs) {
 
 void karma_setup() {
     if (!ensureKarmaState()) {
-        displayError("Karma alloc failed", true);
+        displayError("Falha ao alocar Karma", true);
         return;
     }
 
@@ -2669,7 +2669,7 @@ void karma_setup() {
     ensureWifiPlatform();
     if (!ensureKarmaApInterface(pgm_read_byte(&karma_channels[channl % 14]))) {
         releaseKarmaState();
-        displayError("Fail starting AP", true);
+        displayError("Falha ao iniciar AP", true);
         return;
     }
 

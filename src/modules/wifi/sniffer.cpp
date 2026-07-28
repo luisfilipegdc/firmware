@@ -1161,7 +1161,7 @@ void sniffer_setup() {
     rawFileIndex = 0;
     deauthFileIndex = 0;
     if (!sniffer_prepare_storage(Fs, !isLittleFS)) {
-        displayError("Sniffer queue error", true);
+        displayError("Erro na fila do sniffer", true);
         return;
     }
 
@@ -1227,7 +1227,7 @@ void sniffer_setup() {
         if (returnToMenu) {
             if (littleFsWasFull) {
                 Serial.println("Not enough space on LittleFS");
-                displayError("LittleFS Full", true);
+                displayError("LittleFS cheio", true);
             }
             break; // user exit or storage exit — either way stop loop
         }

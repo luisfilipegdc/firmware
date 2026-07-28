@@ -202,6 +202,6 @@ void nrf_jammer() {
         if ((CHECK_NRF_UART(mode)) || (CHECK_NRF_BOTH(mode))) { NRFSerial.println("OFF"); }
 
     } else {
-        displayError("NRF24 not found", true);
+        displayError("NRF24 não encontrado", true);
     }
 }

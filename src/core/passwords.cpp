@@ -145,7 +145,7 @@ String readDecryptedFile(FS &fs, String filepath) {
     if (!isValidAscii(plaintext)) {
         // invalidate cached password -> will ask again on the next try
         cachedPassword = "";
-        displayError("decryption failed (invalid password?)");
+        displayError("falha na descriptografia (senha inválida?)");
         // Serial.println(plaintext);
         return "";
     }

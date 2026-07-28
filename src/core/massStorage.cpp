@@ -21,7 +21,7 @@ void MassStorage::setup() {
     setShouldStop(false);
 
     if (!setupSdCard()) {
-        displayError("SD card not found.");
+        displayError("Cartão SD não encontrado.");
         delay(1000);
         return;
     }

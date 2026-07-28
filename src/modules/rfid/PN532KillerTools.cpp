@@ -175,7 +175,7 @@ void PN532KillerTools::hardwareProbe() {
         _initializationFailed = true;
         displayBanner();
         printCenterFootnote("Check PN532/PN532Killer Connection");
-        displayError("Wake Failed");
+        displayError("Falha ao acordar");
         return;
     }
 
@@ -205,7 +205,7 @@ void PN532KillerTools::loop() {
                 if (_initializationFailed) {
                     failedInitMenu();
                 } else {
-                    displayInfo("Checking device");
+                    displayInfo("Verificando dispositivo");
                     hardwareProbe();
                     if (!_initializationFailed) {
                         _deviceInitialized = true;
@@ -453,7 +453,7 @@ void PN532KillerTools::failedInitMenu() {
     options.push_back({netLabel.c_str(), [&]() { netMenu(); }});
     options.push_back({"Reset", [&]() {
                            resetDevice(false);
-                           displayInfo("Checking device");
+                           displayInfo("Verificando dispositivo");
                            hardwareProbe();
                            if (!_initializationFailed) {
                                _deviceInitialized = true;
@@ -567,7 +567,7 @@ void PN532KillerTools::setSnifferMode() {
 }
 
 void PN532KillerTools::setSnifferUid() {
-    displayInfo("Scanning UID...");
+    displayInfo("Lendo UID...");
     _pn532Killer.setNormalMode();
     TagTechnology::Iso14aTagInfo hf14aTagInfo = _pn532Killer.hf14aScan();
     if (!hf14aTagInfo.uid.empty()) {
@@ -577,7 +577,7 @@ void PN532KillerTools::setSnifferUid() {
         setSnifferMode();
         return;
     }
-    displayError("No tag found");
+    displayError("Nenhuma tag encontrada");
 }
 
 void PN532KillerTools::setReaderMode() {
@@ -622,7 +622,7 @@ void PN532KillerTools::readTagUid() {
         printCenterFootnote("Press Next/Down to scan again");
         return;
     }
-    displayError("No tag found");
+    displayError("Nenhuma tag encontrada");
 }
 
 void PN532KillerTools::printUid(const char *protocol, const char *uid) {
@@ -730,7 +730,7 @@ bool PN532KillerTools::enableBleDataTransfer() {
     BLEDevice::init("BRUCE-PN532-BLE");
     pServer = BLEDevice::createServer();
     if (!pServer) {
-        displayError("BLE Server Fail");
+        displayError("Falha no servidor BLE");
         return false;
     }
 
@@ -739,7 +739,7 @@ bool PN532KillerTools::enableBleDataTransfer() {
 
     pService = pServer->createService("0000fff0-0000-1000-8000-00805f9b34fb");
     if (!pService) {
-        displayError("BLE Service Fail");
+        displayError("Falha no serviço BLE");
         return false;
     }
 
@@ -748,7 +748,7 @@ bool PN532KillerTools::enableBleDataTransfer() {
     );
 
     if (!pTxCharacteristic) {
-        displayError("BLE TX Fail");
+        displayError("Falha TX do BLE");
         return false;
     }
 
@@ -757,7 +757,7 @@ bool PN532KillerTools::enableBleDataTransfer() {
     );
 
     if (!pRxCharacteristic) {
-        displayError("BLE RX Fail");
+        displayError("Falha RX do BLE");
         return false;
     }
 
@@ -775,7 +775,7 @@ bool PN532KillerTools::enableBleDataTransfer() {
     pAdvertising->start();
 
     bleDataTransferEnabled = true;
-    displayInfo("BLE Enabled");
+    displayInfo("BLE ativado");
     delay(100);
     return true;
 }
@@ -795,7 +795,7 @@ bool PN532KillerTools::disableBleDataTransfer() {
 
     bleDataTransferEnabled = false;
     BLEConnected = false;
-    displayInfo("BLE Disabled");
+    displayInfo("BLE desativado");
     delay(100);
     return true;
 }
@@ -804,11 +804,11 @@ bool PN532KillerTools::enableUdpDataTransfer() {
     if (_udpEnabled) return true;
     // Ensure WiFi active
     if (!(WiFi.isConnected() || WiFi.getMode() == WIFI_AP || WiFi.getMode() == WIFI_AP_STA)) {
-        displayError("No WiFi");
+        displayError("Sem WiFi");
         return false;
     }
     if (!_udp.begin(18888)) {
-        displayError("UDP Fail");
+        displayError("Falha no UDP");
         return false;
     }
     _udpEnabled = true;
@@ -852,7 +852,7 @@ bool PN532KillerTools::disableUdpDataTransfer() {
     _udp.stop();
     _udpEnabled = false;
     _udpHasRemote = false;
-    displayInfo("UDP Off");
+    displayInfo("UDP desligado");
     delay(100);
     return true;
 }
@@ -860,7 +860,7 @@ bool PN532KillerTools::disableUdpDataTransfer() {
 bool PN532KillerTools::enableTcpDataTransfer() {
     if (_tcpEnabled) return true;
     if (!(WiFi.isConnected() || WiFi.getMode() == WIFI_AP || WiFi.getMode() == WIFI_AP_STA)) {
-        displayError("No WiFi");
+        displayError("Sem WiFi");
         return false;
     }
     _tcpServer.begin();
@@ -893,7 +893,7 @@ bool PN532KillerTools::disableTcpDataTransfer() {
     _tcpServer.stop();
     _tcpEnabled = false;
     _tcpHasClient = false;
-    displayInfo("TCP Off");
+    displayInfo("TCP desligado");
     delay(100);
     return true;
 }
@@ -908,17 +908,17 @@ void PN532KillerTools::udpWifiSelectMenu() {
     printCenterFootnote("Select WiFi mode");
     std::vector<Option> selOptions;
     selOptions.push_back({"My Network", [&]() {
-                              displayInfo("Connecting...");
+                              displayInfo("Conectando...");
                               uint32_t t = millis();
                               while (!WiFi.isConnected() && millis() - t < 5000) delay(100);
                               if (!WiFi.isConnected()) {
-                                  displayError("Fail WiFi");
+                                  displayError("Falha no WiFi");
                                   return;
                               }
                               enableUdpDataTransfer();
                           }});
     selOptions.push_back({"AP Mode", [&]() {
-                              displayInfo("Starting AP...");
+                              displayInfo("Iniciando AP...");
                               WiFi.mode(WIFI_AP);
                               WiFi.softAP("BRUCE-UDP", "", 6);
                               delay(200);

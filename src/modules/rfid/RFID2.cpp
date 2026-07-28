@@ -60,7 +60,7 @@ int RFID2::read(int cardBaudRate) {
 
     if (!PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) return TAG_NOT_PRESENT;
 
-    displayInfo("Reading data blocks...");
+    displayInfo("Lendo blocos de dados...");
     pageReadStatus = read_data_blocks();
     pageReadSuccess = pageReadStatus == SUCCESS;
     format_data();

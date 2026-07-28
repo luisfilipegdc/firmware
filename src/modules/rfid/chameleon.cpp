@@ -33,23 +33,23 @@ void Chameleon::setup() {
 }
 
 bool Chameleon::connect() {
-    displayInfo("Turn on Chameleon device", true);
+    displayInfo("Ligue o dispositivo Chameleon", true);
 
     displayBanner();
     padprintln("");
     padprintln("Searching Chameleon Device...");
 
     if (!chmUltra.searchChameleonDevice()) {
-        displayError("Chameleon not found", true);
+        displayError("Chameleon não encontrado", true);
         return false;
     }
 
     if (!chmUltra.connectToChamelon()) {
-        displayError("Chameleon connect error", true);
+        displayError("Erro ao conectar Chameleon", true);
         return false;
     }
 
-    displaySuccess("Chameleon Connected");
+    displaySuccess("Chameleon conectado");
     delayWithReturn(1000);
 
     return true;
@@ -282,13 +282,13 @@ void Chameleon::factoryReset() {
     displayBanner();
 
     if (!proceed) {
-        displayInfo("Aborting factory reset.");
+        displayInfo("Cancelando restauração de fábrica.");
         delayWithReturn(500);
     } else if (chmUltra.cmdFactoryReset()) {
-        displaySuccess("Factory reset success");
+        displaySuccess("Restauração de fábrica concluída");
         delayWithReturn(500);
     } else {
-        displayError("Factory reset error", true);
+        displayError("Erro na restauração de fábrica", true);
     }
 
     delayWithReturn(500);
@@ -334,10 +334,10 @@ void Chameleon::cloneLFTag() {
     if (!chmUltra.cmdLFRead()) return;
 
     if (chmUltra.cmdLFWrite(lfTagData.uidByte, lfTagData.size)) {
-        displaySuccess("UID written successfully.");
+        displaySuccess("UID gravado com sucesso.");
         delayWithReturn(500);
     } else {
-        displayError("Error writing UID to tag.", true);
+        displayError("Erro ao gravar UID na tag.", true);
     }
     delayWithReturn(500);
     setMode(BATTERY_INFO_MODE);
@@ -353,7 +353,7 @@ void Chameleon::customLFUid() {
     displayBanner();
 
     if (custom_uid.length() != 10) {
-        displayError("Invalid UID", true);
+        displayError("UID inválido", true);
         return setMode(BATTERY_INFO_MODE);
     }
 
@@ -379,10 +379,10 @@ void Chameleon::emulateLF() {
     if (chmUltra.cmdEnableSlot(slot, chmUltra.RFID_LF) && chmUltra.cmdChangeActiveSlot(slot) &&
         chmUltra.cmdLFEconfig(lfTagData.uidByte, lfTagData.size) &&
         chmUltra.cmdChangeMode(chmUltra.HW_MODE_EMULATOR)) {
-        displaySuccess("Emulation successful.");
+        displaySuccess("Emulação bem-sucedida.");
         delayWithReturn(1000);
     } else {
-        displayError("Error emulating LF tag.", true);
+        displayError("Erro ao emular tag LF.", true);
     }
 
     setMode(BATTERY_INFO_MODE);
@@ -392,7 +392,7 @@ void Chameleon::loadFileLF() {
     displayBanner();
 
     if (readFileLF()) {
-        displaySuccess("File loaded");
+        displaySuccess("Arquivo carregado");
         delayWithReturn(1000);
         _lf_read_uid = true;
 
@@ -402,7 +402,7 @@ void Chameleon::loadFileLF() {
         };
         loopOptions(options);
     } else {
-        displayError("Error loading file", true);
+        displayError("Erro ao carregar arquivo", true);
         setMode(BATTERY_INFO_MODE);
     }
 }
@@ -416,10 +416,10 @@ void Chameleon::saveFileLF() {
     displayBanner();
 
     if (writeFileLF(filename)) {
-        displaySuccess("File saved.");
+        displaySuccess("Arquivo salvo.");
         delayWithReturn(1000);
     } else {
-        displayError("Error writing file.", true);
+        displayError("Erro ao gravar arquivo.", true);
     }
     setMode(BATTERY_INFO_MODE);
 }
@@ -505,7 +505,7 @@ void Chameleon::readHFTag() {
 
     if (!chmUltra.cmd14aScan()) return;
 
-    displayInfo("Reading data blocks...");
+    displayInfo("Lendo blocos de dados...");
     if (chmUltra.hfTagData.sak == 0x00) chmUltra.cmdMfuVersion();
 
     pageReadSuccess = readHFDataBlocks();
@@ -542,15 +542,15 @@ void Chameleon::cloneHFTag() {
     if (!chmUltra.cmd14aScan()) return;
 
     if (chmUltra.hfTagData.sak != hfTagData.sak) {
-        displayError("Tag types do not match.", true);
+        displayError("Os tipos de tag não coincidem.", true);
         return;
     }
 
     if (chmUltra.cmdMfSetUid(hfTagData.uidByte, hfTagData.size)) {
-        displaySuccess("UID written successfully.");
+        displaySuccess("UID gravado com sucesso.");
         delayWithReturn(1000);
     } else {
-        displayError("Error writing UID to tag.", true);
+        displayError("Erro ao gravar UID na tag.", true);
     }
 
     setMode(BATTERY_INFO_MODE);
@@ -560,15 +560,15 @@ void Chameleon::writeHFData() {
     if (!chmUltra.cmd14aScan()) return;
 
     if (chmUltra.hfTagData.sak != hfTagData.sak) {
-        displayError("Tag types do not match.", true);
+        displayError("Os tipos de tag não coincidem.", true);
         return;
     }
 
     if (writeHFDataBlocks()) {
-        displaySuccess("Tag written successfully.");
+        displaySuccess("Tag gravada com sucesso.");
         delayWithReturn(1000);
     } else {
-        displayError("Error writing data to tag.", true);
+        displayError("Erro ao gravar dados na tag.", true);
     }
 
     setMode(BATTERY_INFO_MODE);
@@ -584,7 +584,7 @@ void Chameleon::customHFUid() {
     displayBanner();
 
     if (custom_uid.length() != 8 && custom_uid.length() != 14) {
-        displayError("Invalid UID", true);
+        displayError("UID inválido", true);
         return setMode(BATTERY_INFO_MODE);
     }
 
@@ -609,7 +609,7 @@ void Chameleon::customHFUid() {
 
 void Chameleon::emulateHF() {
     if (!isMifareClassic(hfTagData.sak)) {
-        displayError("Not implemented for this tag type", true);
+        displayError("Não implementado para este tipo de tag", true);
         return setMode(BATTERY_INFO_MODE);
     }
 
@@ -645,10 +645,10 @@ void Chameleon::emulateHF() {
         chmUltra.cmdChangeSlotType(slot, tagType) && chmUltra.cmdMfEload(strDump) &&
         chmUltra.cmdMfEconfig(hfTagData.uidByte, hfTagData.size, hfTagData.atqaByte, hfTagData.sak) &&
         chmUltra.cmdChangeMode(chmUltra.HW_MODE_EMULATOR)) {
-        displaySuccess("Emulation successful.");
+        displaySuccess("Emulação bem-sucedida.");
         delayWithReturn(1000);
     } else {
-        displayError("Error emulating HF tag.", true);
+        displayError("Erro ao emular tag HF.", true);
     }
 
     setMode(BATTERY_INFO_MODE);
@@ -658,7 +658,7 @@ void Chameleon::loadFileHF() {
     displayBanner();
 
     if (readFileHF()) {
-        displaySuccess("File loaded");
+        displaySuccess("Arquivo carregado");
         delayWithReturn(1000);
         _hf_read_uid = true;
 
@@ -670,7 +670,7 @@ void Chameleon::loadFileHF() {
         };
         loopOptions(options);
     } else {
-        displayError("Error loading file", true);
+        displayError("Erro ao carregar arquivo", true);
         setMode(BATTERY_INFO_MODE);
     }
 }
@@ -684,10 +684,10 @@ void Chameleon::saveFileHF() {
     displayBanner();
 
     if (writeFileHF(filename)) {
-        displaySuccess("File saved.");
+        displaySuccess("Arquivo salvo.");
         delayWithReturn(1000);
     } else {
-        displayError("Error writing file.", true);
+        displayError("Erro ao gravar arquivo.", true);
     }
 
     setMode(BATTERY_INFO_MODE);

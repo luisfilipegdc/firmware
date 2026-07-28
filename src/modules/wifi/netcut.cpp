@@ -241,7 +241,7 @@ int netcutScanDevices() {
 
     struct netif *iface = _getStaNetif();
     if (!iface) {
-        displayError("WiFi netif not found", true);
+        displayError("Interface WiFi (netif) não encontrada", true);
         return 0;
     }
 
@@ -442,7 +442,7 @@ void netcutToggleVip(int idx) {
 // ============================================
 static void _activeLoop() {
     if (!s_gwMacValid) {
-        displayError("Gateway MAC unknown", true);
+        displayError("MAC do gateway desconhecido", true);
         return;
     }
 
@@ -460,7 +460,7 @@ static void _activeLoop() {
     };
 
     if (countActive() == 0) {
-        displayWarning("No targets marked", true);
+        displayWarning("Nenhum alvo marcado", true);
         return;
     }
 
@@ -641,7 +641,7 @@ static void _activeLoop() {
         }
     }
 
-    displaySuccess("Stopped. All " + String(restoreCount) + " devices restored.", true);
+    displaySuccess("Parado. Todos " + String(restoreCount) + " devices restored.", true);
 }
 
 // ============================================
@@ -650,7 +650,7 @@ static void _activeLoop() {
 void netcutTrollDevice(int idx) {
     if (idx < 0 || idx >= s_deviceCount) return;
     if (s_devices[idx].isVip) {
-        displayWarning("VIP protected", true);
+        displayWarning("Protegido (VIP)", true);
         return;
     }
 
@@ -758,12 +758,12 @@ static void _deviceActionMenu(int idx) {
                                        d.isTrollOffline = false;
                                        d.restoreUntil = millis() + 5000;
                                        netcutRestoreDevice(idx);
-                                       displaySuccess("Restored: " + d.ip.toString(), true);
+                                       displaySuccess("Restaurado: " + d.ip.toString(), true);
                                    } else {
                                        d.isCut = true;
                                        d.isTroll = false;
                                        netcutPoisonDevice(idx, 20);
-                                       displayWarning("Cut: " + d.ip.toString(), true);
+                                       displayWarning("Cortado: " + d.ip.toString(), true);
                                        _activeLoop();
                                    }
                                }});
@@ -779,7 +779,7 @@ static void _deviceActionMenu(int idx) {
                                        s_devices[idx].isTroll = false;
                                        s_devices[idx].restoreUntil = millis() + 5000;
                                        netcutRestoreDevice(idx);
-                                       displaySuccess("Restored: " + s_devices[idx].ip.toString(), true);
+                                       displaySuccess("Restaurado: " + s_devices[idx].ip.toString(), true);
                                    }});
             }
         }
@@ -830,11 +830,11 @@ void netcutMenu() {
     int found = netcutScanDevices();
 
     if (found == 0) {
-        displayWarning("No devices found", true);
+        displayWarning("Nenhum dispositivo encontrado", true);
         return;
     }
 
-    if (!s_gwMacValid) { displayWarning("Gateway MAC not found!\nAttack may fail.", true); }
+    if (!s_gwMacValid) { displayWarning("MAC do gateway não encontrado!\nO ataque pode falhar.", true); }
 
 DeviceListMenu:
     options.clear();
@@ -861,7 +861,7 @@ DeviceListMenu:
 
     options.push_back({"Resume All", []() {
                            netcutResumeAll();
-                           displaySuccess("All devices restored", true);
+                           displaySuccess("Todos os dispositivos restaurados", true);
                        }});
 
     options.push_back({"Troll Timing", []() { netcutTrollTimingMenu(); }});

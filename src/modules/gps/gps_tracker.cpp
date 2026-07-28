@@ -94,7 +94,7 @@ void GPSTracker::loop() {
             }
         } else {
             if (count > 5) {
-                displayError("GPS not Found!");
+                displayError("GPS não encontrado!");
                 return end();
             }
             padprintln("No GPS data available");

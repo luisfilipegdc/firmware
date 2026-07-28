@@ -249,7 +249,7 @@ bool readSubFile(FS *fs, const String &filepath, RfCodes &data) {
 
     if (!databaseFile) {
         Serial.println("Failed to open database file.");
-        displayError("Fail to open file", true);
+        displayError("Falha ao abrir arquivo", true);
         return false;
     }
     Serial.println("Opened sub file.");

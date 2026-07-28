@@ -460,12 +460,12 @@ static void queueOrSendKey(
     }
 
     if (queueContainsKey(queuedKeys, key)) {
-        displayWarning("Already queued: " + keyLabel);
+        displayWarning("Já na fila: " + keyLabel);
         return;
     }
 
     if (!isModifierKeyForQueue(key) && queuedNonModifierCount(queuedKeys) >= 6) {
-        displayWarning("Queue full: max 6 non-modifier keys");
+        displayWarning("Fila cheia: máx 6 teclas não modificadoras");
         return;
     }
 
@@ -530,7 +530,7 @@ sendQueuedKeys(HIDInterface *hid, bool &queueRecording, const std::vector<Queued
     hid->releaseAll();
 
     queueRecording = false;
-    displaySuccess("Sent: " + queueToString(queuedKeys));
+    displaySuccess("Enviado: " + queueToString(queuedKeys));
 }
 
 // ============================================================================
@@ -586,7 +586,7 @@ void ducky_startKb(HIDInterface *&hid, bool ble, int functionId) {
         Serial.printf("Creating new HID instance for BLE=%d\n", ble);
         if (ble) {
             if (!radioHasMemForBle()) {
-                displayError("Low RAM: free WiFi/SD first", true);
+                displayError("RAM baixa: libere WiFi/SD antes", true);
                 returnToMenu = true;
                 return;
             }
@@ -709,7 +709,7 @@ void ducky_setup(HIDInterface *&hid, bool ble) {
     Serial.println("Ducky typer begin");
 
     if (ble && bruceConfig.badUSBBLEKeyDelay < 50) {
-        displayWarning("Key delay is below 50ms. You may experience issues with missing keys.", true);
+        displayWarning("Delay abaixo de 50ms. Pode haver perda de teclas.", true);
     }
 
     tft.fillScreen(bruceConfig.bgColor);
@@ -732,7 +732,7 @@ void ducky_setup(HIDInterface *&hid, bool ble) {
     if (fs != nullptr) {
         bad_script = loopSD(*fs, true);
         if (bad_script == "") {
-            displayWarning("Canceled", true);
+            displayWarning("Cancelado", true);
             returnToMenu = true;
             goto EXIT;
         }
@@ -757,7 +757,7 @@ void ducky_setup(HIDInterface *&hid, bool ble) {
                         mySerial.write(0x00);
                     } else break;
                     if (check(EscPress)) {
-                        displayError("CH9329 not found");
+                        displayError("CH9329 não encontrado");
                         delay(500);
                         goto EXIT;
                     }
@@ -773,7 +773,7 @@ void ducky_setup(HIDInterface *&hid, bool ble) {
                     printStatusBadUSBBLE("Preparing BLE");
                     delay(1000);
                 } else {
-                    displayWarning("Canceled", true);
+                    displayWarning("Cancelado", true);
                     goto EXIT;
                 }
             }
@@ -1010,7 +1010,7 @@ void ducky_keyboard(HIDInterface *&hid, bool ble) {
         if (hid->isConnected()) {
             BLEConnected = true;
         } else {
-            displayWarning("Canceled", true);
+            displayWarning("Cancelado", true);
             goto EXIT;
         }
     } else {
@@ -1140,7 +1140,7 @@ void ducky_keyboard(HIDInterface *&hid, bool ble) {
             options.push_back({startQueueLabel, [&]() {
                                    queuedKeys.clear();
                                    queueRecording = true;
-                                   displayInfo("Queue capture started");
+                                   displayInfo("Captura de fila iniciada");
                                }});
 
             String sendQueueLabel = "Send Queue";
@@ -1151,7 +1151,7 @@ void ducky_keyboard(HIDInterface *&hid, bool ble) {
             options.push_back({"Reset Queue", [&]() {
                                    queuedKeys.clear();
                                    queueRecording = false;
-                                   displayWarning("Queue cleared");
+                                   displayWarning("Fila limpa");
                                }});
             options.back().enabled = !queuedKeys.empty();
 
@@ -1396,7 +1396,7 @@ void PresenterMode(HIDInterface *&hid, bool ble) {
     while (!hid->isConnected() && !check(EscPress)) { vTaskDelay(pdMS_TO_TICKS(1)); }
 
     if (!hid->isConnected()) {
-        displayWarning("Canceled", true);
+        displayWarning("Cancelado", true);
         returnToMenu = true;
         return;
     }

@@ -940,14 +940,14 @@ void wifi_crack_handshake(const String &wordlist_path, const String &pcap_path) 
     FS *fs = nullptr;
     if (!getFsStorage(fs)) {
         setCpuFrequencyMhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
-        displayError("No filesystem available", true);
+        displayError("Nenhum sistema de arquivos disponível", true);
         return;
     }
 
     HandshakeData hs;
     if (!parse_pcap_handshake(*fs, pcap_path, hs)) {
         setCpuFrequencyMhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
-        displayError("Failed to parse handshake", true);
+        displayError("Falha ao processar handshake", true);
         vTaskDelay(pdMS_TO_TICKS(3000));
         return;
     }
@@ -968,7 +968,7 @@ void wifi_crack_handshake(const String &wordlist_path, const String &pcap_path) 
         String ssid = keyboard("", 32, "Enter SSID:");
         if (ssid.length() == 0 || ssid == "\x1B") {
             setCpuFrequencyMhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
-            displayError("SSID required", true);
+            displayError("SSID obrigatório", true);
             return;
         }
         strncpy(hs.ssid, ssid.c_str(), sizeof(hs.ssid) - 1);
@@ -981,14 +981,14 @@ void wifi_crack_handshake(const String &wordlist_path, const String &pcap_path) 
     File wf = fs->open(wordlist_path, FILE_READ);
     if (!wf) {
         setCpuFrequencyMhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
-        displayError("Cannot open wordlist", true);
+        displayError("Não foi possível abrir a wordlist", true);
         return;
     }
 
     WordlistReader reader;
     if (!reader.init(&wf)) {
         setCpuFrequencyMhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
-        displayError("Out of memory", true);
+        displayError("Sem memória", true);
         return;
     }
 
@@ -1003,7 +1003,7 @@ void wifi_crack_handshake(const String &wordlist_path, const String &pcap_path) 
 
     if (!shared.queue || !shared.done_sem) {
         setCpuFrequencyMhz(CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ);
-        displayError("Queue alloc failed", true);
+        displayError("Falha ao alocar fila", true);
         if (shared.queue) vQueueDelete(shared.queue);
         if (shared.done_sem) vSemaphoreDelete(shared.done_sem);
         return;
@@ -1109,7 +1109,7 @@ void wifi_crack_handshake(const String &wordlist_path, const String &pcap_path) 
         tft.setTextColor(TFT_RED, bruceConfig.bgColor);
         padprintln("Password not found");
         tft.setTextColor(bruceConfig.priColor, bruceConfig.bgColor);
-        displayError("No match", true);
+        displayError("Sem correspondência", true);
         vTaskDelay(pdMS_TO_TICKS(3000));
     }
 
@@ -1127,7 +1127,7 @@ void wifi_recover_menu() {
 
     FS *fs = nullptr;
     if (!getFsStorage(fs)) {
-        displayError("No filesystem", true);
+        displayError("Sem sistema de arquivos", true);
         return;
     }
 
@@ -1139,7 +1139,7 @@ void wifi_recover_menu() {
 
     String wordlist = loopSD(*fs, true, "txt|lst|csv|*", WORDLIST_DIR);
     if (wordlist.length() == 0) {
-        displayInfo("Cancelled", true);
+        displayInfo("Cancelado", true);
         return;
     }
 
@@ -1152,7 +1152,7 @@ void wifi_recover_menu() {
     resetTftDisplay();
     String pcap = loopSD(*fs, true, "pcap|cap|*", PCAP_DIR);
     if (pcap.length() == 0) {
-        displayInfo("Cancelled", true);
+        displayInfo("Cancelado", true);
         return;
     }
 

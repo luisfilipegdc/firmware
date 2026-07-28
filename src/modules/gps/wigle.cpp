@@ -19,7 +19,7 @@ Wigle::~Wigle() {}
 
 bool Wigle::_check_token() {
     if (bruceConfig.wigleBasicToken == "") {
-        displayError("Wigle token not found", true);
+        displayError("Token Wigle não encontrado", true);
         return false;
     }
 
@@ -119,20 +119,20 @@ bool Wigle::upload(FS *fs, const String &filepath, bool auto_delete) {
 
     File file = fs->open(filepath);
     if (!file) {
-        displayError("Failed to open Wigle file", true);
+        displayError("Falha ao abrir arquivo Wigle", true);
         return false;
     }
 
     if (!_upload_file(file, "Uploading...")) {
         file.close();
-        displayError("File upload error", true);
+        displayError("Erro no envio do arquivo", true);
         return false;
     }
 
     file.close();
     if (auto_delete) fs->remove(filepath);
 
-    displaySuccess("File upload success", true);
+    displaySuccess("Arquivo enviado com sucesso", true);
     return true;
 }
 
@@ -171,7 +171,7 @@ bool Wigle::upload_all(FS *fs, const String &folder, bool auto_delete) {
                 if (file) {
                     if (!_upload_file(file, "Uploading " + String(i) + "...")) {
                         file.close();
-                        displayError("File upload error", true);
+                        displayError("Erro no envio do arquivo", true);
                         return false;
                     }
                     i++;
@@ -194,7 +194,7 @@ bool Wigle::_upload_file(File file, const String &upload_message) {
     WiFiClientSecure client;
     client.setInsecure();
     if (!client.connect(host, 443)) {
-        displayError("Wigle API connection failed", true);
+        displayError("Falha na conexão com a API Wigle", true);
         return false;
     }
 

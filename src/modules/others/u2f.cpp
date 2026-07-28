@@ -1716,6 +1716,6 @@ void u2f_setup() {
 
 #else
 
-void u2f_setup() { displayError("USB HID disabled"); }
+void u2f_setup() { displayError("USB HID desativado"); }
 
 #endif

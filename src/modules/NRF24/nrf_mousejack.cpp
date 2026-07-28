@@ -278,7 +278,7 @@ static int mj_addTarget(const uint8_t *addr, uint8_t addrLen, uint8_t channel, M
 
 static bool mj_validateNrfMode() {
     if (!CHECK_NRF_SPI(mj_nrfMode)) {
-        displayError("MouseJack needs SPI mode", true);
+        displayError("MouseJack precisa do modo SPI", true);
         return false;
     }
     return true;
@@ -644,7 +644,7 @@ static bool mj_scan() {
     if (!mj_validateNrfMode()) return false;
 
     if (!nrf_start(mj_nrfMode)) {
-        displayError("NRF24 not found", true);
+        displayError("NRF24 não encontrado", true);
         return false;
     }
 
@@ -768,7 +768,7 @@ static void mj_attackString(int targetIndex) {
     if (!mj_validateNrfMode()) return;
 
     if (!nrf_start(mj_nrfMode)) {
-        displayError("NRF24 not found", true);
+        displayError("NRF24 não encontrado", true);
         return;
     }
 
@@ -787,7 +787,7 @@ static void mj_attackString(int targetIndex) {
     mj_typeString(target, text.c_str());
 
     NRFradio.powerDown();
-    displaySuccess("Injection complete", true);
+    displaySuccess("Injeção concluída", true);
 }
 
 // ── Attack: DuckyScript from SD Card ────────────────────────────
@@ -797,7 +797,7 @@ static void mj_attackDucky(int targetIndex) {
     // File browser
     FS *fs = nullptr;
     if (!getFsStorage(fs)) {
-        displayError("No storage found");
+        displayError("Nenhum armazenamento encontrado");
         delay(500);
         return;
     }
@@ -826,13 +826,13 @@ static void mj_attackDucky(int targetIndex) {
 
     File file = fs->open(filepath, FILE_READ);
     if (!file) {
-        displayError("Cannot open file", true);
+        displayError("Não foi possível abrir o arquivo", true);
         return;
     }
 
     if (!nrf_start(mj_nrfMode)) {
         file.close();
-        displayError("NRF24 not found", true);
+        displayError("NRF24 não encontrado", true);
         return;
     }
 
@@ -885,7 +885,7 @@ static void mj_attackDucky(int targetIndex) {
 
     file.close();
     NRFradio.powerDown();
-    displaySuccess("Script complete", true);
+    displaySuccess("Script concluído", true);
 }
 
 // ══════════════════════════════════════════════════════════════════
@@ -907,7 +907,7 @@ static void mj_attackMenu(int targetIndex) {
 
 static void mj_targetListMenu() {
     if (mj_targetCount == 0) {
-        displayWarning("No targets found", true);
+        displayWarning("Nenhum alvo encontrado", true);
         return;
     }
 
@@ -944,7 +944,7 @@ void nrf_mousejack() {
              if (mj_scan()) {
                  mj_targetListMenu();
              } else {
-                 displayInfo("No devices found", true);
+                 displayInfo("Nenhum dispositivo encontrado", true);
              }
          }                                             },
         {"View Targets", [=]() { mj_targetListMenu(); }},

@@ -21,7 +21,7 @@ void EMVReader::setup() {
     _rfid->begin();
     nfc = &(_rfid->nfc);
 
-    displayInfo("Waiting for EMV card...");
+    displayInfo("Aguardando cartão EMV...");
     EMVCard card = read_emv_card();
     if (_cancelled) return;
     display_emv(card);
@@ -465,7 +465,7 @@ void EMVReader::save_emv(const char *aid, const char *pan, const char *validfrom
     File file = (*fs).open("/BruceRFID/Scans/" + filename, FILE_WRITE);
 
     if (!file) {
-        displayError("Error opening file.");
+        displayError("Erro ao abrir arquivo.");
         return;
     }
 
@@ -475,6 +475,6 @@ void EMVReader::save_emv(const char *aid, const char *pan, const char *validfrom
     file.println("Valid To: " + String(validto));
 
     file.close();
-    displaySuccess("EMV data saved.");
+    displaySuccess("Dados EMV salvos.");
 }
 #endif

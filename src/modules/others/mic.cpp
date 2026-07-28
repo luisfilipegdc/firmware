@@ -230,7 +230,7 @@ void mic_test_one_task() {
 
     if (!frameBuffer) {
         Serial.println("Error alloc drawing frameBuffer, exiting");
-        displayError("Not Enough RAM", true);
+        displayError("RAM insuficiente", true);
         return;
     }
 
@@ -322,7 +322,7 @@ void mic_test() {
         fftHistory = (uint8_t *)malloc(HISTORY_LEN * SPECTRUM_HEIGHT);
     }
     if (!i2s_buffer || !fftHistory) {
-        displayError("Fail to alloc buffers, exiting", true);
+        displayError("Falha ao alocar buffers, saindo", true);
         return;
     }
 
@@ -748,13 +748,13 @@ void mic_record_app() {
 
         FS *fs = nullptr;
         if (!getFsStorage(fs) || fs == nullptr) {
-            displayError("No storage", true);
+            displayError("Sem armazenamento", true);
             goto cleanup_and_exit;
         }
 
         if (!fs->exists("/BruceMIC")) {
             if (!fs->mkdir("/BruceMIC")) {
-                displayError("Dir creation failed", true);
+                displayError("Falha ao criar diretório", true);
                 goto cleanup_and_exit;
             }
         }
@@ -936,7 +936,7 @@ void mic_record_app() {
             }
 
         } else {
-            displayError("Recording failed", true);
+            displayError("Falha na gravação", true);
         }
     }
 

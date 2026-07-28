@@ -141,7 +141,7 @@ void Wardriving::loop() {
             }
         } else {
             if (count > 5) {
-                displayError("GPS not Found!");
+                displayError("GPS não encontrado!");
                 return end();
             }
             padprintln("No GPS data available");
@@ -219,7 +219,7 @@ void Wardriving::scanWiFiBLE() {
     FS *fs;
     if (!getFsStorage(fs)) {
         padprintln("Storage setup error");
-        displayError("Storage setup error", true);
+        displayError("Erro ao configurar armazenamento", true);
         returnToMenu = true;
         return;
     }
@@ -234,7 +234,7 @@ void Wardriving::scanWiFiBLE() {
 
     if (!file) {
         padprintln("Failed to open file for writing");
-        displayError("Failed to open file for writing", true);
+        displayError("Falha ao abrir arquivo para escrita", true);
         returnToMenu = true;
         return;
     }

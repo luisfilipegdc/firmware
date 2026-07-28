@@ -24,24 +24,24 @@ void Amiibo::setup() {
 }
 
 bool Amiibo::connect() {
-    displayInfo("Turn on Amiibolink device", true);
+    displayInfo("Ligue o dispositivo Amiibolink", true);
 
     displayBanner();
     padprintln("");
     padprintln("Searching Amiibolink Device...");
 
     if (!amiibolink.searchDevice()) {
-        displayError("Amiibolink not found");
+        displayError("Amiibolink não encontrado");
         delayWithReturn(1000);
         return false;
     }
 
     if (!amiibolink.connectToDevice()) {
-        displayError("Amiibolink connect error", true);
+        displayError("Erro ao conectar Amiibolink", true);
         return false;
     }
 
-    displaySuccess("Amiibolink Connected");
+    displaySuccess("Amiibolink conectado");
     delayWithReturn(1000);
 
     return true;
@@ -73,22 +73,22 @@ void Amiibo::uploadAmiibo() {
     if (!openDumpFile()) return;
 
     if (!checkEmulationTagType()) {
-        displayError("Invalid tag type", true);
+        displayError("Tipo de tag inválido", true);
         return;
     }
 
     displayBanner(AMIIBO_UPLOAD);
-    displayInfo("Sending commands...");
+    displayInfo("Enviando comandos...");
 
     bool success =
         (amiibolink.cmdPreUploadDump() && amiibolink.cmdUploadDumpData(strDump) &&
          amiibolink.cmdPostUploadDump());
 
     if (success) {
-        displaySuccess("Success");
+        displaySuccess("Sucesso");
         delayWithReturn(500);
     } else {
-        displayError("Amiibolink communication error", true);
+        displayError("Erro de comunicação Amiibolink", true);
     }
 
     delayWithReturn(500);
@@ -106,10 +106,10 @@ void Amiibo::changeUIDMode() {
     displayBanner(CHANGE_UID_MODE);
 
     if (amiibolink.cmdSetUIDMode(uidMode)) {
-        displaySuccess("Success");
+        displaySuccess("Sucesso");
         delayWithReturn(500);
     } else {
-        displayError("Amiibolink communication error", true);
+        displayError("Erro de comunicação Amiibolink", true);
     }
 
     delayWithReturn(500);
@@ -121,7 +121,7 @@ bool Amiibo::openDumpFile() {
     FS *fs;
 
     if (!getFsStorage(fs)) {
-        displayError("Storage error", true);
+        displayError("Erro de armazenamento", true);
         return false;
     }
 
@@ -130,7 +130,7 @@ bool Amiibo::openDumpFile() {
     file = fs->open(filepath, FILE_READ);
 
     if (!file) {
-        displayError("Dump file error", true);
+        displayError("Erro no arquivo de dump", true);
         return false;
     }
 
@@ -155,7 +155,7 @@ bool Amiibo::openDumpFile() {
     vTaskDelay(pdMS_TO_TICKS(100));
 
     if (!pageReadSuccess) {
-        displayError("Incomplete dump file", true);
+        displayError("Arquivo de dump incompleto", true);
         return false;
     }
 

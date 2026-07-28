@@ -173,16 +173,16 @@ void shark_loop() {
         else if (score < 100) downTime = 7;
 
         if (score == 99) {
-            displaySuccess("So...");
+            displaySuccess("Então...");
             while (!check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); }
             while (check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); } // debounce
-            displaySuccess("you just found");
+            displaySuccess("você acabou de achar");
             while (!check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); }
             while (check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); } // debounce
-            displayInfo("hidden credits!");
+            displayInfo("créditos secretos!");
             while (!check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); }
             while (check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); } // debounce
-            displayInfo("main devs:");
+            displayInfo("devs principais:");
             while (!check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); }
             while (check(SelPress)) { vTaskDelay(pdMS_TO_TICKS(1)); } // debounce
             options = {

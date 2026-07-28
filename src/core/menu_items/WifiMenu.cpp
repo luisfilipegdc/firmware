@@ -51,7 +51,7 @@ void WifiMenu::optionsMenu() {
             {"Conectar ao WiFi", lambdaHelper(wifiConnectMenu, WIFI_STA)},
             {"Criar AP WiFi", [=]() {
                  wifiConnectMenu(WIFI_AP);
-                 displayInfo("pwd: " + bruceConfig.wifiAp.pwd, true);
+                 displayInfo("senha: " + bruceConfig.wifiAp.pwd, true);
              }},
         };
     }

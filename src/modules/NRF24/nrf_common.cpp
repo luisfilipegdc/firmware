@@ -33,7 +33,7 @@ bool nrf_start(NRF24_MODE mode) {
 
     if (CHECK_NRF_UART(mode)) {
         if (USBserial.getSerialOutput() == &Serial1) {
-            displayError("(E) UART already in use", true);
+            displayError("(E) UART já em uso", true);
             result = false;
         }
         NRFSerial.begin(115200, SERIAL_8N1, bruceConfigPins.uart_bus.rx, bruceConfigPins.uart_bus.tx);
@@ -77,7 +77,7 @@ NRF24_MODE nrf_setMode() {
     bool nrfSPI = true;
     bool nrfUART = true;
     if (bruceConfigPins.NRF24_bus.checkConflict(GPIO_NUM_NC)) {
-        displayError("NRF24 pins not configured", true);
+        displayError("Pinos do NRF24 não configurados", true);
         nrfSPI = false;
     }
     // Serial UART oly display errors on Serial Monitor

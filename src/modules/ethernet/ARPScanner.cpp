@@ -143,7 +143,7 @@ void ARPScanner::setup() {
 
     if (ip_info.ip.addr == 0 || ip_info.netmask.addr == 0) {
         Serial.println("Ethernet has no IP/netmask, aborting ARP scan");
-        displayError("Ethernet not ready", true);
+        displayError("Ethernet não pronto", true);
         return;
     }
 
@@ -295,7 +295,7 @@ void ARPScanner::afterScanOptions(const Host &host) {
         {"Station Deauth",
          [=]() {
              if (!wifiConnected) {
-                 displayError("Station deauth not available on ethernet");
+                 displayError("Deauth de estação indisponível no ethernet");
              } else {
                  stationDeauth(host);
              }

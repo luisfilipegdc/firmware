@@ -430,7 +430,7 @@ void IrRead::save_device() {
     };
 
     if (fs && write_file(filename, fs)) {
-        displaySuccess("File saved to " + String((fs == &SD) ? "SD Card" : "LittleFS") + ".", true);
+        displaySuccess("Arquivo salvo em " + String((fs == &SD) ? "SD Card" : "LittleFS") + ".", true);
         signals_read = 0;
         strDeviceContent = "";
         if (quickloop) {
@@ -465,7 +465,7 @@ String IrRead::loop_headless(int max_loops) {
         return "";
     }
 
-    if (results.overflow) displayWarning("buffer overflow, data may be truncated", true);
+    if (results.overflow) displayWarning("estouro de buffer, os dados podem ser truncados", true);
 
     String r = "Filetype: IR signals file\n";
     r += "Version: 1\n";
@@ -488,7 +488,7 @@ bool IrRead::write_file(String filename, FS *fs) {
         int ch = 1;
         int i = 1;
 
-        displayWarning("File \"" + String(filename) + "\" already exists", true);
+        displayWarning("Arquivo \"" + String(filename) + "\" already exists", true);
         display_banner();
 
         options = {
