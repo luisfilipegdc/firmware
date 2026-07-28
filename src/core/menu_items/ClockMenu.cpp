@@ -13,7 +13,7 @@ void ClockMenu::optionsMenu() {
         // OK pressed, show submenu
         showSubMenu();
 
-        // If "Exit" is pressed in the submenu, it exits
+        // If "Sair" is pressed in the submenu, it exits
         if (returnToMenu) break;
     }
 }
@@ -21,8 +21,8 @@ void ClockMenu::optionsMenu() {
 void ClockMenu::showSubMenu() {
     options = {
         {"Timer",         [=]() { Timer(); }            },
-        {"Back to Clock", [=]() {}                      },
-        {"Exit",          [=]() { returnToMenu = true; }}
+        {"Voltar ao Relógio", [=]() {}                      },
+        {"Sair",          [=]() { returnToMenu = true; }}
         // Add more options here
     };
 

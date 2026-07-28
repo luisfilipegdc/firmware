@@ -25,22 +25,22 @@ void BleMenu::optionsMenu() {
     }
 #endif
 #if !defined(LITE_VERSION)
-    options.push_back({"Media Cmds", [=]() { MediaCommands(hid_ble, true); }});
-    options.push_back({"BLE Scan", ble_scan});
+    options.push_back({"Comandos de Mídia", [=]() { MediaCommands(hid_ble, true); }});
+    options.push_back({"Escanear BLE", ble_scan});
     options.push_back({"iBeacon", [=]() {
                            ibeacon("Bruce", "e4c159a0-8c82-11e6-bdf4-0800200c9a66", 0x004C);
                        }});
     options.push_back({"Bad BLE", [=]() { ducky_setup(hid_ble, true); }});
-    options.push_back({"BLE Keyboard", [=]() { ducky_keyboard(hid_ble, true); }});
+    options.push_back({"Teclado BLE", [=]() { ducky_keyboard(hid_ble, true); }});
 #endif
-    options.push_back({"BLE Spam", [=]() { spamMenu(); }});
+    options.push_back({"Spam BLE", [=]() { spamMenu(); }});
 
 #if !defined(LITE_VERSION)
-    options.push_back({"BLE Suite", [=]() { BleSuiteMenu(); }});
+    options.push_back({"Suíte BLE", [=]() { BleSuiteMenu(); }});
     options.push_back({"Ninebot", [=]() { BLENinebot(); }});
-    options.push_back({"Presenter mode", [=]() { PresenterMode(hid_ble, true); }});
+    options.push_back({"Modo Apresentador", [=]() { PresenterMode(hid_ble, true); }});
 #else
-    options.push_back({"BLE Sniffer", [=]() { BLE_SnifferMenu(); }});
+    options.push_back({"Sniffer BLE", [=]() { BLE_SnifferMenu(); }});
 #endif
     addOptionToMainMenu();
 

@@ -21,7 +21,7 @@ void EthernetMenu::start_ethernet() {
 
 void EthernetMenu::optionsMenu() {
     options = {
-        {"Scan Hosts",
+        {"Escanear Hosts",
          [this]() {
              start_ethernet();
              if (eth != nullptr) {

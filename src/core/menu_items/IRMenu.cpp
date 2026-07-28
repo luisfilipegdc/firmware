@@ -14,16 +14,16 @@ void IRMenu::optionsMenu() {
 #endif
     options = {
         {"TV-B-Gone", StartTvBGone              },
-        {"Custom IR", otherIRcodes              },
-        {"IR Read",   [=]() { IrRead(); }       },
+        {"IR Custom", otherIRcodes              },
+        {"Ler IR",   [=]() { IrRead(); }       },
 #if !defined(LITE_VERSION)
-        {"IR Jammer", startIrJammer             }, // Simple frequency-adjustable jammer
+        {"Jammer IR", startIrJammer             }, // Simple frequency-adjustable jammer
 #endif
         {"Config",    [this]() { configMenu(); }},
     };
     addOptionToMainMenu();
 
-    String txt = "Infrared";
+    String txt = "Infravermelho";
     txt += " Tx: " + String(bruceConfigPins.irTx) + " Rx: " + String(bruceConfigPins.irRx) +
            " Rpts: " + String(bruceConfigPins.irTxRepeats);
     loopOptions(options, MENU_TYPE_SUBMENU, txt.c_str());
@@ -34,13 +34,13 @@ void IRMenu::optionsMenu() {
 
 void IRMenu::configMenu() {
     options = {
-        {"Ir TX Pin", lambdaHelper(gsetIrTxPin, true)},
-        {"Ir RX Pin", lambdaHelper(gsetIrRxPin, true)},
-        {"Ir TX Repeats", setIrTxRepeats},
-        {"Back", [this]() { optionsMenu(); }},
+        {"Pino TX do IR", lambdaHelper(gsetIrTxPin, true)},
+        {"Pino RX do IR", lambdaHelper(gsetIrRxPin, true)},
+        {"Repetições TX do IR", setIrTxRepeats},
+        {"Voltar", [this]() { optionsMenu(); }},
     };
 
-    loopOptions(options, MENU_TYPE_SUBMENU, "IR Config");
+    loopOptions(options, MENU_TYPE_SUBMENU, "Config IR");
 }
 
 void IRMenu::drawIcon(float scale) {
