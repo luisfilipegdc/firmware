@@ -16,14 +16,14 @@
 void RFIDMenu::optionsMenu() {
     options = {
 #if !defined(REMOVE_RFID_HW_INTERFACE)  // Remove Hardware interface menu due to lack of external GPIO
-        {"Read tag",    [=]() { TagOMatic(); }                     },
+        {"Ler tag",    [=]() { TagOMatic(); }                     },
 #ifndef LITE_VERSION
-        {"Read EMV",    [=]() { EMVReader(); }                     },
-        {"Read 125kHz", [=]() { RFID125(); }                       },
+        {"Ler EMV",    [=]() { EMVReader(); }                     },
+        {"Ler 125kHz", [=]() { RFID125(); }                       },
 #endif
-        {"Scan tags",   [=]() { TagOMatic(TagOMatic::SCAN_MODE); } },
-        {"Load file",   [=]() { TagOMatic(TagOMatic::LOAD_MODE); } },
-        {"Erase data",  [=]() { TagOMatic(TagOMatic::ERASE_MODE); }},
+        {"Escanear tags",   [=]() { TagOMatic(TagOMatic::SCAN_MODE); } },
+        {"Carregar arquivo",   [=]() { TagOMatic(TagOMatic::LOAD_MODE); } },
+        {"Apagar dados",  [=]() { TagOMatic(TagOMatic::ERASE_MODE); }},
 #endif
     };
 
@@ -36,9 +36,9 @@ void RFIDMenu::optionsMenu() {
                                   bruceConfigPins.rfidModule == ST25R3916_SPI_MODULE ||
                                   bruceConfigPins.rfidModule == ST25R3916_I2C_MODULE || false;
     if (ndefEmulationSupported) {
-        options.push_back({"Emulate NDEF", [=]() { TagOMatic(TagOMatic::EMULATE_NDEF_MODE); }});
+        options.push_back({"Emular NDEF", [=]() { TagOMatic(TagOMatic::EMULATE_NDEF_MODE); }});
     }
-    options.push_back({"Write NDEF", [=]() { TagOMatic(TagOMatic::WRITE_NDEF_MODE); }});
+    options.push_back({"Gravar NDEF", [=]() { TagOMatic(TagOMatic::WRITE_NDEF_MODE); }});
 #endif
 #ifndef LITE_VERSION
     options.push_back({"Amiibolink", [=]() { Amiibo(); }});
@@ -56,7 +56,7 @@ void RFIDMenu::optionsMenu() {
 #ifndef LITE_VERSION
     if (bruceConfigPins.rfidModule == PN532_I2C_MODULE) {
         // Added SRIX Menu only if PN is set to i2c mode
-        options.insert(options.begin() + 3, {"SRIX Tool", [=]() { PN532_SRIX(); }});
+        options.insert(options.begin() + 3, {"Ferramenta SRIX", [=]() { PN532_SRIX(); }});
     }
 #endif
 #endif
@@ -85,13 +85,13 @@ void RFIDMenu::optionsMenu() {
 void RFIDMenu::configMenu() {
     options = {
 #if !defined(REMOVE_RFID_HW_INTERFACE)  // Remove Hardware interface menu due to lack of external GPIO
-        {"RFID Module", setRFIDModuleMenu          },
+        {"Módulo RFID", setRFIDModuleMenu          },
 #endif
-        {"Add MIF Key", addMifareKeyMenu           },
-        {"Back",        [this]() { optionsMenu(); }},
+        {"Adicionar Chave MIF", addMifareKeyMenu           },
+        {"Voltar",        [this]() { optionsMenu(); }},
     };
 
-    loopOptions(options, MENU_TYPE_SUBMENU, "RFID Config");
+    loopOptions(options, MENU_TYPE_SUBMENU, "Config RFID");
 }
 
 void RFIDMenu::drawIcon(float scale) {

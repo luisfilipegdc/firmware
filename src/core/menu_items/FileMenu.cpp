@@ -9,29 +9,29 @@
 
 void FileMenu::optionsMenu() {
     options.clear();
-    if (setupSdCard()) options.push_back({"SD Card", [=]() { loopSD(SD); }});
+    if (setupSdCard()) options.push_back({"Cartão SD", [=]() { loopSD(SD); }});
     options.push_back({"LittleFS", [=]() { loopSD(LittleFS); }});
     options.push_back({"WebUI", loopOptionsWebUi});
 
 #if !defined(LITE_VERSION)
-    options.push_back({"Connect", [=]() {
+    options.push_back({"Conectar", [=]() {
         std::vector<Option> connectOpts = {
-            {"Send File", [=]() { FileSharing().sendFile(); }        },
-            {"Recv File", [=]() { FileSharing().receiveFile(); }     },
-            {"Send Cmds", [=]() { EspSerialCmd().sendCommands(); }   },
-            {"Recv Cmds", [=]() { EspSerialCmd().receiveCommands(); }},
-            {"Back",      [=]() { optionsMenu(); }                   }
+            {"Enviar Arquivo", [=]() { FileSharing().sendFile(); }        },
+            {"Receber Arquivo", [=]() { FileSharing().receiveFile(); }     },
+            {"Enviar Comandos", [=]() { EspSerialCmd().sendCommands(); }   },
+            {"Receber Comandos", [=]() { EspSerialCmd().receiveCommands(); }},
+            {"Voltar",      [=]() { optionsMenu(); }                   }
         };
-        loopOptions(connectOpts, MENU_TYPE_SUBMENU, "Connect");
+        loopOptions(connectOpts, MENU_TYPE_SUBMENU, "Conectar");
     }});
 #endif
 
 #if defined(SOC_USB_OTG_SUPPORTED)
-    options.push_back({"Mass Storage", [=]() { MassStorage(); }});
+    options.push_back({"Armazenamento USB", [=]() { MassStorage(); }});
 #endif
     addOptionToMainMenu();
 
-    loopOptions(options, MENU_TYPE_SUBMENU, "Files");
+    loopOptions(options, MENU_TYPE_SUBMENU, "Arquivos");
 }
 void FileMenu::drawIcon(float scale) {
     clearIconArea();
